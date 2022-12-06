@@ -2,8 +2,6 @@ import numpy as np
 
 FUND_SEARCH_URL = 'http://fund.eastmoney.com/data/fundsearch.html?spm=search&key={key}#key{key}'
 
-
-
 def cal_gaussian_ratio():
     avg_value = 0
     sigma = 1
