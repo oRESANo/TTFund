@@ -1,0 +1,557 @@
+<html><head>
+    <meta charset="utf-8">
+    <title>基金搜索</title>
+    <link rel="Stylesheet" type="text/css" href="//j5.dfcfw.com/css/data/head_foot_20141222173748.css">
+    <link rel="Stylesheet" type="text/css" href="//j5.dfcfw.com/css/data/content_20200318133353.css">
+    <link rel="Stylesheet" href="//j5.dfcfw.com/css/web/style_tooltip_min_20180110151655.css">
+    <link href="//fund.eastmoney.com/webcommon/css/FundCommonHeader.min.css?v=20161009" rel="stylesheet">
+    <link href="//fund.eastmoney.com/webcommon/css/fundCommonSecondMenu.min.css?v=20161009" rel="stylesheet">
+    <link href="//fund.eastmoney.com/webcommon/css/FundCommonHeader2.min.css?v=20161009" rel="stylesheet">
+    <base target="_blank">
+<script type="text/javascript" charset="utf-8" src="//j5.dfcfw.com/sc/tfs/api/blk_rpc.js?v=167031457"></script><style id="AIAssistantStyle">.AIAssistant{position:fixed;z-index:99999;;bottom: 0%;right: 0%;display:block;}.XTIconBG{width:60px;height:60px;background:#5B89F7;border-radius:30px;}.XTIcon{height:60px;width:60px;/*background-repeat: no-repeat;background-image: url(https://j5.dfcfw.com/sc/image/202008/20200827074250.gif);*/position: relative;margin: 0 20px 20px 100px;background-size:60px 60px;cursor: pointer;}.XT_prompt{width: 105px;background:rgba(62,62,62,0.9);/*background: linear-gradient(to right,#f7b934,#f07a39);*/color: white;font-size: small;text-align: center;padding: 7px;border-radius: 11px;border-bottom-right-radius:0px;cursor: pointer;}.AIPop{width:350px;position:fixed;right:20px;bottom:20px;z-index:999999;}.hidephone{height: 43px;width: 60px;top: 0%;left: 0;background: #ffffff;z-index: 9999999;position: absolute;}.closepop{height: 15px;width: 15px;top: 0%;right: 0%;background: transparent;z-index: 9999999;position: absolute;text-align:right;color:#008aff;padding-top: 15px;margin-right: 12px;}.closepop a{cursor: pointer;}.closepop i{display:block;width:15px;height:15px;background-image:url(https://j5.dfcfw.com/image/202002/20200224165959.png);background-position:-550px -450px;}.a_hide{display: none;}</style></head>
+<body>
+    <div class="mainFrame" style="height: 60px;">
+        <iframe width="1000" height="60" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="//same.eastmoney.com/s?z=eastmoney&amp;c=915&amp;op=1&amp;_sp=3"></iframe>
+    </div>
+    <div class="mainFrame">
+        <div id="fund_common_header" class="fund-common-header">
+            <div class="ui-clear header-nav">
+                <div class="ui-left">
+                    <ul>
+                        <li class="head-item">
+                            <a href="javascript:void(0);" target="_self" id="addFavor">收藏本站</a>
+                        </li>
+                        <li class=" head-item login" id="loginTTJJ">
+                            <span class="blank blankL">|</span>
+                            <a href="https://login.1234567.com.cn/login" target="_blank" class=" header-icon ">安全登录</a>
+                            <span class="blank blankR blankZ">|</span>
+                        </li>
+                        <li class="head-item ui-hide" id="logoutTTJJ">
+                            <span class="blank blankL">|</span>
+                            <span class=" p8 CustomerName"></span>
+                            <a href="javascript:void(0);" target="_self" class=" header-icon pl20" id="logout"><span class="icon close-icon"></span>安全退出</a>
+                        </li>
+                        <li class="head-item js-logout-show">
+                            <a href="https://register.1234567.com.cn/reg/step1" target="_blank">免费开户</a>
+                        </li>
+                        <li class="head-item js-logout-show">
+                            <a href="https://register.1234567.com.cn/forgetpwd" target="_blank">忘记密码</a>
+                        </li>
+                        <li class="head-item dropdown">
+                            <span class="blank blankL">|</span>
+                            <a href="http://fundact.eastmoney.com/app/" class="a_phone" id="a_phone">手机客户端</a>
+                            <div id="float_phone" class="float_phone dropdown-menu">
+                                <a href="http://js1.eastmoney.com/tg.aspx?ID=2771" class="btn btn_iphone">iphone</a>
+                                <a href="http://js1.eastmoney.com/tg.aspx?ID=2772" class="btn btn_android">android</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="ui-right">
+                    <ul class="headRight">
+                        <li class="head-item">
+                            <a href="http://www.1234567.com.cn/" class="header-icon pl20"><span class="icon eastmoney-icon"></span>返回天天基金网</a>
+
+                        </li>
+                        <li class="dropdown  head-item droplist">
+                            <span class="blank blankL">|</span>
+                            <a href="https://trade.1234567.com.cn/" class="red header-icon pr20">基金交易<span class="icon dropdown-icon"></span></a>
+                            <span class="blank blankR">|</span>
+                            <div class="dropdown-menu">
+                                <ul>
+                                    <li>
+                                        <a href="https://trade.1234567.com.cn/MyAssets/Default">我的资产</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://trade.1234567.com.cn/xjb/index">活期宝</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://trade.1234567.com.cn/dqb/default">定期宝</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://trade.1234567.com.cn/zsb/default">指数宝</a>
+                                    </li>
+                                    <li>
+                                        <a href="http://fund.eastmoney.com/trade/">买基金</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://trade.1234567.com.cn/Investment/default?">基金定投</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://query.1234567.com.cn/Query/Index">交易查询</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="dropdown  head-item droplist">
+                            <a href="http://fund.eastmoney.com/daogou/" class=" header-icon pr20">产品导购<span class="icon dropdown-icon"></span></a>
+                            <span class="blank blankR">|</span>
+                            <div class="dropdown-menu">
+                                <ul>
+                                    <li>
+                                        <a href="http://huoqibao.1234567.com.cn/">活期宝</a>
+                                    </li>
+                                    <li>
+                                        <a href="http://dingqibao.1234567.com.cn/">定期宝</a>
+                                    </li>
+                                    <li>
+                                        <a href="http://zhishubao.1234567.com.cn/">指数宝</a>
+                                    </li>
+                                    <li>
+                                        <a href="http://simubao.1234567.com.cn/">私募宝</a>
+                                    </li>
+                                    <li>
+                                        <a href="http://fund.eastmoney.com/trade/default.html">收益榜</a>
+                                    </li>
+                                    <li>
+                                        <a href="http://fund.eastmoney.com/gslc/">固收理财</a>
+                                    </li>
+                                    <li>
+                                        <a href="http://fund.eastmoney.com/gaoduan/">高端理财</a>
+                                    </li>
+                                    <li>
+                                        <a href="http://fundzt.eastmoney.com/2016/pcbaoxian/index.html">保险理财</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="head-item">
+                            <a href="http://favor.fund.eastmoney.com/">自选基金</a>
+                        </li>
+                        <li class="head-item">
+                            <span class="blank">|</span>
+                        </li>
+                        <li class="head-item">
+                            <a href="https://vip.1234567.com.cn/Default">VIP俱乐部</a>
+                        </li>
+                        <li class="head-item">
+                            <span class="blank">|</span>
+                        </li>
+                        <li class="head-item">
+                            <a href="http://help.1234567.com.cn/">帮助中心</a>
+                        </li>
+                        <li class="head-item"><a id="wzastart" target="_self" href="javascript:void(0);"> 无障碍阅读</a></li><li class="dropdown  head-item webMap ">
+                            <span class="blank blankL">|</span>
+                            <a href="javascript:void(0)" target="_self" class=" header-icon  pl20 pr20">
+                                <span class="list-icon icon"></span>网站导航<span class="dropdown-icon icon"></span></a>
+                            <span class="blank blankR blankZ">|</span>
+                            <div class="dropdown-menu">
+                                <table class="ui-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="nowrap">
+                                                <h3>热点推荐</h3>
+                                                <div class="ui-left">
+                                                    <a href="http://fundact.eastmoney.com/app/" class="red header-icon"><span class="icon iphone-icon"></span><span class="pbuyfund">手机买基金</span></a>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <h3>基金数据</h3>
+                                            </th>
+                                            <th class="nowrap">
+                                                <h3>基金交易</h3>
+                                                <div class="ui-left">
+                                                    <a href="https://login.1234567.com.cn/login" class="red">登录</a>
+                                                    <span class="red">|</span>
+                                                    <a href="https://register.1234567.com.cn/reg/step1" class="red">开户</a>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <h3>服务指南</h3>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="content col1">
+                                                    <a href="http://favor.fund.eastmoney.com/">自选基金</a>
+                                                    <a href="http://fund.eastmoney.com/Compare/">基金比较</a><br>
+                                                    <a href="http://fund.eastmoney.com/gslc/">固收理财</a>
+                                                    <a href="http://data.eastmoney.com/money/calc/CalcFundSY.html">收益计算</a><br>
+                                                    <a href="http://fund.eastmoney.com/ztjj/#sort:SYL_3Y:rs:WRANK">主题基金</a>
+                                                    <a href="http://fund.eastmoney.com/manager/default.html#dt14;mcreturnjson;ftall;pn20;pi1;scabbname;stasc">基金经理</a><br>
+                                                    <a href="http://fund.eastmoney.com/yanbao/">基金研究</a>
+                                                    <a href="http://jijinba.eastmoney.com/">基&nbsp;&nbsp;金&nbsp;&nbsp;吧</a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="content col2">
+                                                    <a href="http://fund.eastmoney.com/fund.html">基金净值</a>
+                                                    <a href="http://fund.eastmoney.com/fundguzhi.html">净值估算</a><br>
+                                                    <a href="http://fund.eastmoney.com/data/fundranking.html">基金排行</a>
+                                                    <a href="http://fund.eastmoney.com/dingtou/syph_yndt.html">定投排行</a><br>
+                                                    <a href="http://fund.eastmoney.com/data/fundrating.html">基金评级</a>
+                                                    <a href="http://fund.eastmoney.com/data/fundfenhong.html">基金分红</a><br>
+                                                    <a href="http://fund.eastmoney.com/company/default.html">基金公司</a>
+                                                    <a href="http://simu.eastmoney.com/">私募基金</a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="content col3">
+                                                    <a href="http://huoqibao.1234567.com.cn/">活&nbsp;&nbsp;期&nbsp;&nbsp;宝</a>
+                                                    <a href="http://dingqibao.1234567.com.cn">定&nbsp;&nbsp;期&nbsp;&nbsp;宝</a><br>
+                                                    <a href="http://zhishubao.1234567.com.cn/">指&nbsp;&nbsp;数&nbsp;&nbsp;宝</a>
+                                                    <a href="http://simubao.1234567.com.cn/">私&nbsp;&nbsp;募&nbsp;&nbsp;宝</a><br>
+                                                    <a href="http://fund.eastmoney.com/daogou/">基金导购</a>
+                                                    <a href="http://fund.eastmoney.com/trade/default.html">收益排行</a><br>
+                                                    <a href="http://fund.eastmoney.com/gslc/">固收理财</a>
+                                                    <a href="http://fund.eastmoney.com/gaoduan/">高端理财</a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="content col4">
+                                                    <a href="http://help.1234567.com.cn/">帮助中心</a><br>
+                                                    <a href="http://help.1234567.com.cn/list_812.html">机构指南</a><br>
+                                                    <a href="http://feedback.1234567.com.cn/">意见反馈</a><br>
+                                                    <a href="http://fundact.eastmoney.com/safety/">安全保障</a><br>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                                <span class="line line1"></span>
+                                <span class="line line2"></span>
+                                <span class="line line3"></span>
+                            </div>
+                            <!-- 用来遮挡部分border -->
+                            <span class="blankW"></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- 顶部 end -->
+
+    </div>
+
+    <div class="mainFrame">
+        <div class="fund-common-second-menu">
+            <div class="inner">
+                <a class="logo fl" href="http://www.1234567.com.cn/" title="天天基金网" target="_blank"></a>
+                <h1 class="fl"><a class="h1" href="http://fund.eastmoney.com/data/FundSearch.html" target="_blank" title="基金搜索">基金搜索</a></h1>
+                <div class="wrapper_min searchArea fr">
+                    <div class="navbar-item funtype-searchArea-search">
+                        <div class="searchbar-form search-left" data-plugin="searchBox" data-target="#search-tooltip1"><form action="//fundsuggest.eastmoney.com/FundSearch/SearchDirect.aspx" data-searchbox="emForm" method="get" target="_blank">
+                            <div class="searchbar-select search-left" data-searchbox="select">
+                                <div class="select-head">
+                                    <p class="headContent" onselectstart="return false;" style="-moz-user-select: none;">基&nbsp;金</p>
+                                    <span class="searchBtnIco"></span>
+                                </div>
+                                <div class="select-option">
+                                    <ul>
+                                        <li class="active" data-select-to="fund">基&nbsp;金</li>
+                                        <li data-select-to="fund-manager">基金经理</li>
+                                        <li class="noborder" data-select-to="fund-corp">基金公司</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="searchbar-input search-left">
+                                <input type="text" id="search-input1" data-searchbox="input" autocomplete="off" url=" ">
+                                <label class="em-placehold search-que" for="search-input1" onselectstart="return false;" style="-moz-user-select: none;"><i class=""></i>请输入基金代码、名称或简拼</label>
+                                <div class="search-tooltip" id="search-tooltip1"></div>
+                            </div>
+                            <div class="searchbar-btn search-left">
+                                <button class="search-submit" data-searchbox="submit" type="submit">搜索</button>
+                            </div>
+                        <input type="text" name="url" data-searchbox="seaFake" style="display:none;"></form></div>
+                    </div>
+
+                    <div class="fl links">
+                        <a class="first" href="http://fund.eastmoney.com/allfund.html" target="_blank">基金代码</a>
+                        <a href="http://fund.eastmoney.com/company/default.html#scomname;dasc" target="_blank">基金公司</a>
+                        <a class="favorPage" href="javascript:;" id="favorPage" target="_self"><span class="favorPage-star">★</span>收藏本页</a>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="mainFrame">
+        <div class="s6"></div>
+        <style>
+            .page-box {
+                background-color: #FFFFFF;
+                margin: 0 auto;
+                width: 1000px;
+            }
+
+            .nav-txt {
+                border: 1px solid #274A6F;
+                line-height: 18px;
+                font-size: 12px;
+            }
+
+            .nav-txt dl, .nav-txt dd, .nav-txt dt, .nav-txt ul, .nav-txt ol, .nav-txt li {
+                margin: 0;
+                padding: 0;
+            }
+
+            .nav-txt ul {
+                list-style-type: none;
+            }
+
+            .nav-txt .content, .nav-txt .dt {
+                background: url("//j5.dfcfw.com/j1/images/header.png") repeat-x scroll 0 -340px transparent;
+            }
+
+            .nav-txt a, .nav-txt a:visited {
+                color: #FFFFFF;
+                margin-left: 11px;
+                text-decoration: none;
+            }
+
+            .nav-txt a:hover {
+                color: #FFFFFF;
+                text-decoration: underline;
+            }
+
+            .nav-txt .content {
+                border: 1px solid #7DA4CD;
+                height: 60px;
+                padding-top: 6px;
+            }
+
+            .nav-txt .dt {
+                float: left;
+                height: 50px;
+                margin-left: 15px;
+                overflow: hidden;
+                width: 30px;
+            }
+
+            .nav-txt .dt a {
+                display: block;
+                height: 0;
+                margin: 0;
+                padding-top: 50px;
+            }
+
+            .nav-txt dd {
+                float: left;
+            }
+
+            .nav-txt .sj {
+                background-position: 0 -280px;
+                margin-left: 2px;
+            }
+
+            .nav-txt .zx {
+                background-position: -30px -280px;
+            }
+
+            .nav-txt .gj {
+                background-position: -90px -280px;
+            }
+
+            .nav-txt .hd {
+                background-position: -120px -280px;
+            }
+
+            .nav-txt .jy {
+                background-position: -160px -215px;
+                height: 68px;
+                margin-top: -8px;
+                width: 26px;
+            }
+
+            .nav-txt .jy a {
+                padding-top: 68px;
+            }
+
+            .width208 {
+                width:208px;
+            }
+        </style>
+        <div class="page-box">
+
+            <div class="fund-common-header2">
+                <div class="fundtypeNav width1000">
+                    <div class="navItem navItem01">
+                        <ul>
+                            <li>
+                                <a class="ui-blod width50" href="http://fund.eastmoney.com/data/">基金数据</a>
+                                <a href="http://fund.eastmoney.com/fund.html">基金净值</a>
+                                <a href="http://fund.eastmoney.com/fundguzhi.html">净值估算</a>
+                                <a href="http://fund.eastmoney.com/data/fundranking.html">基金排行</a>
+                                <a href="http://fund.eastmoney.com/dingtou/syph_yndt.html">定投</a>
+                                <a href="http://fund.eastmoney.com/fjjj.html">分级</a>
+                                <a href="http://fund.eastmoney.com/data/fundrating.html">评级</a>
+                            </li>
+                            <li>
+                                <a class="width50" href="http://fund.eastmoney.com/company/default.html">基金公司</a>
+                                <a href="http://fund.eastmoney.com/000001.html">基金品种</a>
+                                <a href="http://fund.eastmoney.com/XFXJJ_jzrgq12.html">新发基金</a>
+                                <a href="http://fund.eastmoney.com/Fund_sgzt_bzdm.html">申购状态</a>
+                                <a href="http://fund.eastmoney.com/data/fundfenhong.html">分红</a>
+                                <a href="http://fund.eastmoney.com/gonggao">公告</a>
+                                <a href="http://simu.eastmoney.com/">私募</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <span class="lineType01"></span>
+                    <div class="navItem navItem02">
+                        <ul>
+                            <li>
+                                <a class="ui-blod width50" href="http://fund.eastmoney.com/favor.html">投资工具</a>
+                                <a href="http://favor.fund.eastmoney.com/">自选基金</a>
+                                <a href="http://fund.eastmoney.com/Compare/">比较</a>
+                            </li>
+                            <li>
+                                <a class="width50" href="http://fund.eastmoney.com/data/fundshaixuan.html">基金筛选</a>
+                                <a href="http://data.eastmoney.com/money/calc/CalcFundSY.html">收益计算</a>
+                                <a href="http://fundbook.eastmoney.com/">账本</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <span class="lineType01"></span>
+                    <div class="navItem navItem03">
+                        <ul>
+                            <li>
+                                <a class="ui-blod width50" href="http://roll.eastmoney.com/fund.html">资讯互动</a>
+                                <a href="http://fund.eastmoney.com/news/cjjyw.html">要闻</a>
+                                <a href="http://fund.eastmoney.com/news/cjjgd.html">观点</a>
+                                <a class="tSpace01" href="http://fund.eastmoney.com/news/cjjxx.html">学校</a>
+                                <a href="http://fund.eastmoney.com/topic/#000">专题</a>
+                            </li>
+                            <li class="width208">
+                                <a class="width50" href="http://fund.eastmoney.com/yanbao/">基金研究</a>
+                                <a href="http://fund.eastmoney.com/news/cjjtzcl.html">策略</a>
+                                <a href="http://fund.eastmoney.com/news/csmjj.html">私募</a>
+                                <a href="http://jijinba.eastmoney.com/">基金吧</a>
+                                <a href="http://js1.eastmoney.com/tg.aspx?ID=3754">大咖秀</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <span class="lineType02 icon ico-shopcar">
+                        <i></i>
+                    </span>
+                    <div class="navItem navItem04">
+                        <ul>
+                            <li>
+                                <a class="shopcar width50" href="https://trade.1234567.com.cn/">
+                                    <span>基金交易</span>
+                                </a>
+                                <a class="tSpace01" href="http://huoqibao.1234567.com.cn/">活期宝</a>
+                                <a class="tSpace01" href="http://dingqibao.1234567.com.cn/">定期宝</a>
+                                <a class="tSpace01" href="http://zhishubao.1234567.com.cn/">指数宝</a>
+                                <a href="http://fund.eastmoney.com/gaoduan/">高端理财</a>
+                            </li>
+                            <li>
+                                <a class="width50" href="http://fund.eastmoney.com/tradeindex.html">基金超市</a>
+                                <a href="http://fund.eastmoney.com/daogou">基金导购</a>
+                                <a href="http://fund.eastmoney.com/trade/default.html">收益排行</a>
+                                <a href="http://fund.eastmoney.com/fundhot8.html">热销基金</a>
+                                <a href="http://fund.eastmoney.com/topic.html">优选基金</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="mainFrame">
+
+        <div style="margin-top: 3px; margin-bottom: 3px; border: 1px solid #77C1FF; height: 31px; line-height: 31px; overflow: hidden;">
+            <iframe scrolling="no" height="31" frameborder="0" align="left" width="1000" src="//fund.eastmoney.com/cookies_visited_w1000.html" marginwidth="0" marginheight="0"></iframe>
+        </div>
+
+    </div>
+
+    <!-- main content start -->
+
+    <div class="mainFrame">
+        <div class="search-content">
+            <div class="search-head">
+                <h2>基金搜索结果</h2>
+            </div>
+            <div class="search-box" data-plugin="searchBox" data-target="#search-tooltip" data-searchbox="gotoPageEvent"><form action="//fundsuggest.eastmoney.com/FundSearch/SearchDirect.aspx" data-searchbox="emForm" method="get" target="_blank">
+                <div class="boxContent clearfix">
+                    <div class="searchbarbox">
+                        <div class="searchbar-select" data-searchbox="select">
+                            <div class="select-head">
+                                <p class="headContent" onselectstart="return false;" style="-moz-user-select: none;">基&nbsp;金</p>
+
+                            </div>
+                            <div class="select-option">
+                                <ul>
+                                    <li class="active" data-select-to="fund">基&nbsp;金</li>
+                                    <li data-select-to="fund-manager">基金经理</li>
+                                    <li class="noborder" data-select-to="fund-corp">基金公司</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="searchbar-input">
+                            <input type="text" id="search-input" data-searchbox="input" autocomplete="off" name="url">
+                            <label class="em-placehold search-que" for="search-input" onselectstart="return false;" style="-moz-user-select: none;"><i class=""></i>请输入基金代码、名称或简拼</label>
+                            <div class="search-tooltip" id="search-tooltip"></div>
+                        </div>
+                        <div class="searchbar-btn">
+                            <button class="search-submit" data-searchbox="submit" type="submit">搜索</button>
+                        </div>
+                    </div>
+
+                    <a href="http://fund.eastmoney.com/data/fundshaixuan.html" target="_blank" class="adver">高级<br>
+                        搜索</a>
+                </div>
+
+            <input type="text" name="url" data-searchbox="seaFake" style="display:none;"></form></div>
+            <div class="search-a">
+                <div class="a-content clearfix">
+                    <a href="http://fund.eastmoney.com/company/default.html#scomname;dasc" target="_blank">基金公司一览表</a>
+                    <a href="http://fund.eastmoney.com/allfund.html" target="_blank">基金代码一览表</a>
+                    <a href="http://fund.eastmoney.com/manager/default.html#dt14;mcreturnjson;ftall;pn20;pi1;scabbname;stasc" target="_blank">基金经理一览表</a>
+                    <a href="http://fund.eastmoney.com/Fund_sgzt_bzdm.html" target="_blank">申购状态一览表</a>
+                    <a href="http://fund.eastmoney.com/feilv.html" target="_blank">基金费率一览表</a>
+                </div>
+            </div>
+            <div class="search-r" id="search-title"><h3>与“<span data-searchpage="value">消费</span>”相关的搜索结果</h3>
+            <ul class="clearfix" data-searchpage="lis"><li><a href="javascript:void(0)" target="_self" data-id="#jj">基金 (320)</a></li><li><a href="javascript:void(0)" target="_self" data-id="#xgjj">香港基金 (0)</a></li><li><a href="javascript:void(0)" target="_self" data-id="#gdlc">高端理财 (8)</a></li><li><a href="javascript:void(0)" target="_self" data-id="#jjgs">基金公司 (0)</a></li><li><a href="javascript:void(0)" target="_self" data-id="#jjjl">基金经理 (1)</a></li><li><a href="javascript:void(0)" target="_self" data-id="#ztjj">基金主题 (1)</a></li><li><a href="javascript:void(0)" target="_self" data-id="#hs">沪市 (0)</a></li><li><a href="javascript:void(0)" target="_self" data-id="#ss">深市 (0)</a></li><li><a href="javascript:void(0)" target="_self" data-id="#bg">B股 (0)</a></li><li><a href="javascript:void(0)" target="_self" data-id="#xggs">香港股市 (0)</a></li><li><a href="javascript:void(0)" target="_self" data-id="#zs">指数 (48)</a></li><li><a href="javascript:void(0)" target="_self" data-id="#gzqh">股指期货 (0)</a></li><li><a href="javascript:void(0)" target="_self" data-id="#qh">期货 (0)</a></li><li><a href="javascript:void(0)" target="_self" data-id="#zq">债券 (2)</a></li><li><a href="javascript:void(0)" target="_self" data-id="#qq">期权 (0)</a></li><li><a href="javascript:void(0)" target="_self" data-id="#mg">美股 (18)</a></li></ul></div>
+            <div class="search-result" id="search-result"><div class="section" id="jj"><div class="s-title clearfix"><h4>基金</h4><p>符合条件的搜索结果：<span>320</span>条</p></div><div class="s-content clearfix"><table class="table1"><thead><tr><th>代码</th><th>基金名称</th><th class="last">相关链接</th></tr></thead><tbody><tr class="firstTR"><td><a href="http://fund.eastmoney.com/110022.html" target="_blank">110022</a></td><td><a href="http://fund.eastmoney.com/110022.html" target="_blank" title="易方达消费行业股票">易方达<span class="red">消费</span>行业股票</a></td><td class="last center300"><a href="http://fund.eastmoney.com/110022.html" target="_blank">估算图 </a><a href="http://jijinba.eastmoney.com/list,110022.html" target="_blank">基金吧 </a><a href="http://fund.eastmoney.com/f10/jbgk_110022.html" target="_blank">档案</a></td></tr><tr><td><a href="http://fund.eastmoney.com/009265.html" target="_blank">009265</a></td><td><a href="http://fund.eastmoney.com/009265.html" target="_blank" title="易方达消费精选股票">易方达<span class="red">消费</span>精选股票</a></td><td class="last center300"><a href="http://fund.eastmoney.com/009265.html" target="_blank">估算图 </a><a href="http://jijinba.eastmoney.com/list,009265.html" target="_blank">基金吧 </a><a href="http://fund.eastmoney.com/f10/jbgk_009265.html" target="_blank">档案</a></td></tr><tr><td><a href="http://fund.eastmoney.com/206007.html" target="_blank">206007</a></td><td><a href="http://fund.eastmoney.com/206007.html" target="_blank" title="鹏华消费优选混合">鹏华<span class="red">消费</span>优选混合</a></td><td class="last center300"><a href="http://fund.eastmoney.com/206007.html" target="_blank">估算图 </a><a href="http://jijinba.eastmoney.com/list,206007.html" target="_blank">基金吧 </a><a href="http://fund.eastmoney.com/f10/jbgk_206007.html" target="_blank">档案</a></td></tr><tr><td><a href="http://fund.eastmoney.com/519002.html" target="_blank">519002</a></td><td><a href="http://fund.eastmoney.com/519002.html" target="_blank" title="华安安信消费混合A">华安安信<span class="red">消费</span>混合A</a></td><td class="last center300"><a href="http://fund.eastmoney.com/519002.html" target="_blank">估算图 </a><a href="http://jijinba.eastmoney.com/list,519002.html" target="_blank">基金吧 </a><a href="http://fund.eastmoney.com/f10/jbgk_519002.html" target="_blank">档案</a></td></tr><tr><td><a href="http://fund.eastmoney.com/398061.html" target="_blank">398061</a></td><td><a href="http://fund.eastmoney.com/398061.html" target="_blank" title="中海消费混合">中海<span class="red">消费</span>混合</a></td><td class="last center300"><a href="http://fund.eastmoney.com/398061.html" target="_blank">估算图 </a><a href="http://jijinba.eastmoney.com/list,398061.html" target="_blank">基金吧 </a><a href="http://fund.eastmoney.com/f10/jbgk_398061.html" target="_blank">档案</a></td></tr></tbody></table><table class="table2"><thead><tr><th>代码</th><th>基金名称</th><th class="last">相关链接</th></tr></thead><tbody><tr class="firstTR"><td><a href="http://fund.eastmoney.com/000083.html" target="_blank">000083</a></td><td><a href="http://fund.eastmoney.com/000083.html" target="_blank" title="汇添富消费行业混合">汇添富<span class="red">消费</span>行业混合</a></td><td class="last center300"><a href="http://fund.eastmoney.com/000083.html" target="_blank">估算图 </a><a href="http://jijinba.eastmoney.com/list,000083.html" target="_blank">基金吧 </a><a href="http://fund.eastmoney.com/f10/jbgk_000083.html" target="_blank">档案</a></td></tr><tr><td><a href="http://fund.eastmoney.com/159928.html" target="_blank">159928</a></td><td><a href="http://fund.eastmoney.com/159928.html" target="_blank" title="汇添富中证主要消费ETF">汇添富中证主要<span class="red">消费</span>E</a></td><td class="last center300"><a href="http://fund.eastmoney.com/159928.html" target="_blank">估算图 </a><a href="http://jijinba.eastmoney.com/list,159928.html" target="_blank">基金吧 </a><a href="http://fund.eastmoney.com/f10/jbgk_159928.html" target="_blank">档案</a></td></tr><tr><td><a href="http://fund.eastmoney.com/519915.html" target="_blank">519915</a></td><td><a href="http://fund.eastmoney.com/519915.html" target="_blank" title="富国消费主题混合A">富国<span class="red">消费</span>主题混合A</a></td><td class="last center300"><a href="http://fund.eastmoney.com/519915.html" target="_blank">估算图 </a><a href="http://jijinba.eastmoney.com/list,519915.html" target="_blank">基金吧 </a><a href="http://fund.eastmoney.com/f10/jbgk_519915.html" target="_blank">档案</a></td></tr><tr><td><a href="http://fund.eastmoney.com/160127.html" target="_blank">160127</a></td><td><a href="http://fund.eastmoney.com/160127.html" target="_blank" title="南方新兴消费增长股票(LOF)A">南方新兴<span class="red">消费</span>增长股票</a></td><td class="last center300"><a href="http://fund.eastmoney.com/160127.html" target="_blank">估算图 </a><a href="http://jijinba.eastmoney.com/list,160127.html" target="_blank">基金吧 </a><a href="http://fund.eastmoney.com/f10/jbgk_160127.html" target="_blank">档案</a></td></tr><tr><td><a href="http://fund.eastmoney.com/519714.html" target="_blank">519714</a></td><td><a href="http://fund.eastmoney.com/519714.html" target="_blank" title="交银消费新驱动股票">交银<span class="red">消费</span>新驱动股票</a></td><td class="last center300"><a href="http://fund.eastmoney.com/519714.html" target="_blank">估算图 </a><a href="http://jijinba.eastmoney.com/list,519714.html" target="_blank">基金吧 </a><a href="http://fund.eastmoney.com/f10/jbgk_519714.html" target="_blank">档案</a></td></tr></tbody></table><table class="table3"><thead><tr><th>代码</th><th>基金名称</th><th class="last">相关链接</th></tr></thead><tbody><tr class="firstTR"><td><a href="http://fund.eastmoney.com/000248.html" target="_blank">000248</a></td><td><a href="http://fund.eastmoney.com/000248.html" target="_blank" title="汇添富中证主要消费ETF联接A">汇添富中证主要<span class="red">消费</span>E</a></td><td class="last center300"><a href="http://fund.eastmoney.com/000248.html" target="_blank">估算图 </a><a href="http://jijinba.eastmoney.com/list,000248.html" target="_blank">基金吧 </a><a href="http://fund.eastmoney.com/f10/jbgk_000248.html" target="_blank">档案</a></td></tr><tr><td><a href="http://fund.eastmoney.com/001044.html" target="_blank">001044</a></td><td><a href="http://fund.eastmoney.com/001044.html" target="_blank" title="嘉实新消费股票">嘉实新<span class="red">消费</span>股票</a></td><td class="last center300"><a href="http://fund.eastmoney.com/001044.html" target="_blank">估算图 </a><a href="http://jijinba.eastmoney.com/list,001044.html" target="_blank">基金吧 </a><a href="http://fund.eastmoney.com/f10/jbgk_001044.html" target="_blank">档案</a></td></tr><tr><td><a href="http://fund.eastmoney.com/002697.html" target="_blank">002697</a></td><td><a href="http://fund.eastmoney.com/002697.html" target="_blank" title="中欧消费主题股票C">中欧<span class="red">消费</span>主题股票C</a></td><td class="last center300"><a href="http://fund.eastmoney.com/002697.html" target="_blank">估算图 </a><a href="http://jijinba.eastmoney.com/list,002697.html" target="_blank">基金吧 </a><a href="http://fund.eastmoney.com/f10/jbgk_002697.html" target="_blank">档案</a></td></tr><tr><td><a href="http://fund.eastmoney.com/510630.html" target="_blank">510630</a></td><td><a href="http://fund.eastmoney.com/510630.html" target="_blank" title="华夏消费ETF">华夏<span class="red">消费</span>ETF</a></td><td class="last center300"><a href="http://fund.eastmoney.com/510630.html" target="_blank">估算图 </a><a href="http://jijinba.eastmoney.com/list,510630.html" target="_blank">基金吧 </a><a href="http://fund.eastmoney.com/f10/jbgk_510630.html" target="_blank">档案</a></td></tr><tr><td><a href="http://fund.eastmoney.com/660012.html" target="_blank">660012</a></td><td><a href="http://fund.eastmoney.com/660012.html" target="_blank" title="农银消费主题混合A">农银<span class="red">消费</span>主题混合A</a></td><td class="last center300"><a href="http://fund.eastmoney.com/660012.html" target="_blank">估算图 </a><a href="http://jijinba.eastmoney.com/list,660012.html" target="_blank">基金吧 </a><a href="http://fund.eastmoney.com/f10/jbgk_660012.html" target="_blank">档案</a></td></tr></tbody></table></div><p class="s-more" style="display: block;"><a href="javascript:void(0)" target="_self" data-more="jj" data-num="320">共<span>320</span>条结果，点击展开更多&nbsp;<i class="arr down"></i></a></p></div><div class="section" id="xgjj"><div class="s-title clearfix"><h4>香港基金</h4><p>符合条件的搜索结果：<span>0</span>条</p></div><div class="s-content clearfix"><p class="s-info">未找到相关香港基金</p></div></div><div class="section" id="gdlc"><div class="s-title clearfix"><h4>高端理财</h4><p>符合条件的搜索结果：<span>8</span>条</p></div><div class="s-content clearfix"><table class="table1"><thead><tr><th>代码</th><th>基金名称</th><th class="last">相关链接</th></tr></thead><tbody><tr class="firstTR"><td><a href="http://fund.eastmoney.com/gaoduan/AB0006.html" target="_blank">AB0006</a></td><td><a href="http://fund.eastmoney.com/gaoduan/AB0006.html" target="_blank" title="兴业证券金麒麟消费升级">兴业证券金麒麟<span class="red">消费</span>升</a></td><td class="last center300"><a href="http://fund.eastmoney.com/gaoduan/AB0006.html" target="_blank">详情 </a></td></tr><tr><td><a href="http://fund.eastmoney.com/gaoduan/B60002.html" target="_blank">B60002</a></td><td><a href="http://fund.eastmoney.com/gaoduan/B60002.html" target="_blank" title="浙商汇金大消费">浙商汇金大<span class="red">消费</span></a></td><td class="last center300"><a href="http://fund.eastmoney.com/gaoduan/B60002.html" target="_blank">详情 </a></td></tr><tr><td><a href="http://fund.eastmoney.com/gaoduan/BF2009.html" target="_blank">BF2009</a></td><td><a href="http://fund.eastmoney.com/gaoduan/BF2009.html" target="_blank" title="西南证券鼎新大消费2号">西南证券鼎新大<span class="red">消费</span>2</a></td><td class="last center300"><a href="http://fund.eastmoney.com/gaoduan/BF2009.html" target="_blank">详情 </a></td></tr></tbody></table><table class="table2"><thead><tr><th>代码</th><th>基金名称</th><th class="last">相关链接</th></tr></thead><tbody><tr class="firstTR"><td><a href="http://fund.eastmoney.com/gaoduan/SR8136.html" target="_blank">SR8136</a></td><td><a href="http://fund.eastmoney.com/gaoduan/SR8136.html" target="_blank" title="雨山消费医疗1号私募投资基金">雨山<span class="red">消费</span>医疗1号私募</a></td><td class="last center300"><a href="http://fund.eastmoney.com/gaoduan/SR8136.html" target="_blank">详情 </a></td></tr><tr><td><a href="http://fund.eastmoney.com/gaoduan/909555.html" target="_blank">909555</a></td><td><a href="http://fund.eastmoney.com/gaoduan/909555.html" target="_blank" title="中信证券消费精选1号">中信证券<span class="red">消费</span>精选1号</a></td><td class="last center300"><a href="http://fund.eastmoney.com/gaoduan/909555.html" target="_blank">详情 </a></td></tr><tr><td><a href="http://fund.eastmoney.com/gaoduan/CF0041.html" target="_blank">CF0041</a></td><td><a href="http://fund.eastmoney.com/gaoduan/CF0041.html" target="_blank" title="金元港通消费1号">金元港通<span class="red">消费</span>1号</a></td><td class="last center300"><a href="http://fund.eastmoney.com/gaoduan/CF0041.html" target="_blank">详情 </a></td></tr></tbody></table><table class="table3"><thead><tr><th>代码</th><th>基金名称</th><th class="last">相关链接</th></tr></thead><tbody><tr class="firstTR"><td><a href="http://fund.eastmoney.com/gaoduan/AB1002.html" target="_blank">AB1002</a></td><td><a href="http://fund.eastmoney.com/gaoduan/AB1002.html" target="_blank" title="兴证资管玉麒麟2号消费升级">兴证资管玉麒麟2号消</a></td><td class="last center300"><a href="http://fund.eastmoney.com/gaoduan/AB1002.html" target="_blank">详情 </a></td></tr><tr><td><a href="http://fund.eastmoney.com/gaoduan/T04728.html" target="_blank">T04728</a></td><td><a href="http://fund.eastmoney.com/gaoduan/T04728.html" target="_blank" title="源晖医药消费阿尔法B">源晖医药<span class="red">消费</span>阿尔法B</a></td><td class="last center300"><a href="http://fund.eastmoney.com/gaoduan/T04728.html" target="_blank">详情 </a></td></tr><tr><td></td><td></td><td class="last"></td></tr></tbody></table></div></div><div class="section" id="jjgs"><div class="s-title clearfix"><h4>基金公司</h4><p>符合条件的搜索结果：<span>0</span>条</p></div><div class="s-content clearfix"><p class="s-info">未找到相关基金公司</p></div></div><div class="section" id="jjjl"><div class="s-title clearfix"><h4>基金经理</h4><p>符合条件的搜索结果：<span>1</span>条</p></div><div class="s-content clearfix"><table class="table1"><thead><tr><th class="Textleft">基金经理</th><th class="last">所属公司</th></tr></thead><tbody><tr class="firstTR"><td><a href="http://fund.eastmoney.com/manager/30546172.html" target="_blank">费逸</a></td><td class="last center300"><a href="http://fund.eastmoney.com/company/80000248.html" target="_blank">广发基金</a></td></tr></tbody></table><table class="table2"><thead><tr><th class="Textleft">基金经理</th><th class="last">所属公司</th></tr></thead><tbody><tr class="firstTR"><td></td><td class="last"></td></tr></tbody></table><table class="table3"><thead><tr><th class="Textleft">基金经理</th><th class="last">所属公司</th></tr></thead><tbody><tr class="firstTR"><td></td><td class="last"></td></tr></tbody></table></div></div><div class="section" id="ztjj"><div class="s-title clearfix"><h4>基金主题</h4><p>符合条件的搜索结果：<span>1</span>条</p></div><div class="s-content clearfix"><table class="table1"><thead><tr><th class="Textleft">基金主题</th><th class="last">相关链接</th></tr></thead><tbody><tr class="firstTR"><td><a href="http://fund.eastmoney.com/ztjj2/#!syl/Y/curr/801085/fs/SYL_6Y/fst/DESC" target="_blank"><span class="red">消费</span>电子</a></td><td class="last center300"><a href="http://fund.eastmoney.com/ztjj2/#!syl/Y/curr/801085/fs/SYL_6Y/fst/DESC" target="_blank">详情</a></td></tr></tbody></table><table class="table2"><thead><tr><th class="Textleft">基金主题</th><th class="last">相关链接</th></tr></thead><tbody><tr class="firstTR"><td></td><td class="last"></td></tr></tbody></table><table class="table3"><thead><tr><th class="Textleft">基金主题</th><th class="last">相关链接</th></tr></thead><tbody><tr class="firstTR"><td></td><td class="last"></td></tr></tbody></table></div></div><div class="section" id="hs"><div class="s-title clearfix"><h4>沪市</h4><p>符合条件的搜索结果：<span>0</span>条</p></div><div class="s-content clearfix"><p class="s-info">未找到相关沪市</p></div></div><div class="section" id="ss"><div class="s-title clearfix"><h4>深市</h4><p>符合条件的搜索结果：<span>0</span>条</p></div><div class="s-content clearfix"><p class="s-info">未找到相关深市</p></div></div><div class="section" id="bg"><div class="s-title clearfix"><h4>B股</h4><p>符合条件的搜索结果：<span>0</span>条</p></div><div class="s-content clearfix"><p class="s-info">未找到相关B股</p></div></div><div class="section" id="xggs"><div class="s-title clearfix"><h4>香港股市</h4><p>符合条件的搜索结果：<span>0</span>条</p></div><div class="s-content clearfix"><p class="s-info">未找到相关香港股市</p></div></div><div class="section" id="zs"><div class="s-title clearfix"><h4>指数</h4><p>符合条件的搜索结果：<span>48</span>条</p></div><div class="s-content clearfix"><table class="table1"><thead><tr><th>代码</th><th>指数名称</th><th class="last">相关链接</th></tr></thead><tbody><tr class="firstTR"><td><a href="http://quote.eastmoney.com/zs000932.html" target="_blank">000932</a></td><td class="left150"><a href="http://quote.eastmoney.com/zs000932.html" target="_blank" title="中证消费">中证<span class="red">消费</span></a></td><td class="last center300"><a href="http://quote.eastmoney.com/zs000932.html" target="_blank">行情</a></td></tr><tr><td><a href="http://quote.eastmoney.com/zs000912.html" target="_blank">000912</a></td><td class="left150"><a href="http://quote.eastmoney.com/zs000912.html" target="_blank" title="300消费">300<span class="red">消费</span></a></td><td class="last center300"><a href="http://quote.eastmoney.com/zs000912.html" target="_blank">行情</a></td></tr><tr><td><a href="http://quote.eastmoney.com/zs000990.html" target="_blank">000990</a></td><td class="left150"><a href="http://quote.eastmoney.com/zs000990.html" target="_blank" title="全指消费">全指<span class="red">消费</span></a></td><td class="last center300"><a href="http://quote.eastmoney.com/zs000990.html" target="_blank">行情</a></td></tr><tr><td><a href="http://quote.eastmoney.com/zs000806.html" target="_blank">000806</a></td><td class="left150"><a href="http://quote.eastmoney.com/zs000806.html" target="_blank" title="消费服务"><span class="red">消费</span>服务</a></td><td class="last center300"><a href="http://quote.eastmoney.com/zs000806.html" target="_blank">行情</a></td></tr><tr><td><a href="http://quote.eastmoney.com/zs399646.html" target="_blank">399646</a></td><td class="left150"><a href="http://quote.eastmoney.com/zs399646.html" target="_blank" title="深消费50">深<span class="red">消费</span>50</a></td><td class="last center300"><a href="http://quote.eastmoney.com/zs399646.html" target="_blank">行情</a></td></tr></tbody></table><table class="table2"><thead><tr><th>代码</th><th>指数名称</th><th class="last">相关链接</th></tr></thead><tbody><tr class="firstTR"><td><a href="http://quote.eastmoney.com/zs000036.html" target="_blank">000036</a></td><td class="left150"><a href="http://quote.eastmoney.com/zs000036.html" target="_blank" title="上证消费">上证<span class="red">消费</span></a></td><td class="last center300"><a href="http://quote.eastmoney.com/zs000036.html" target="_blank">行情</a></td></tr><tr><td><a href="http://quote.eastmoney.com/zs000126.html" target="_blank">000126</a></td><td class="left150"><a href="http://quote.eastmoney.com/zs000126.html" target="_blank" title="消费50"><span class="red">消费</span>50</a></td><td class="last center300"><a href="http://quote.eastmoney.com/zs000126.html" target="_blank">行情</a></td></tr><tr><td><a href="http://quote.eastmoney.com/zs000069.html" target="_blank">000069</a></td><td class="left150"><a href="http://quote.eastmoney.com/zs000069.html" target="_blank" title="消费80"><span class="red">消费</span>80</a></td><td class="last center300"><a href="http://quote.eastmoney.com/zs000069.html" target="_blank">行情</a></td></tr><tr><td><a href="http://quote.eastmoney.com/zs983105.html" target="_blank">983105</a></td><td class="left150"><a href="http://quote.eastmoney.com/zs983105.html" target="_blank" title="内地消费电子">内地<span class="red">消费</span>电子</a></td><td class="last center300"><a href="http://quote.eastmoney.com/zs983105.html" target="_blank">行情</a></td></tr><tr><td><a href="http://quote.eastmoney.com/zs000147.html" target="_blank">000147</a></td><td class="left150"><a href="http://quote.eastmoney.com/zs000147.html" target="_blank" title="优势消费">优势<span class="red">消费</span></a></td><td class="last center300"><a href="http://quote.eastmoney.com/zs000147.html" target="_blank">行情</a></td></tr></tbody></table><table class="table3"><thead><tr><th>代码</th><th>指数名称</th><th class="last">相关链接</th></tr></thead><tbody><tr class="firstTR"><td><a href="http://quote.eastmoney.com/zs399932.html" target="_blank">399932</a></td><td class="left150"><a href="http://quote.eastmoney.com/zs399932.html" target="_blank" title="中证消费">中证<span class="red">消费</span></a></td><td class="last center300"><a href="http://quote.eastmoney.com/zs399932.html" target="_blank">行情</a></td></tr><tr><td><a href="http://quote.eastmoney.com/zs000942.html" target="_blank">000942</a></td><td class="left150"><a href="http://quote.eastmoney.com/zs000942.html" target="_blank" title="内地消费">内地<span class="red">消费</span></a></td><td class="last center300"><a href="http://quote.eastmoney.com/zs000942.html" target="_blank">行情</a></td></tr><tr><td><a href="http://quote.eastmoney.com/zs399364.html" target="_blank">399364</a></td><td class="left150"><a href="http://quote.eastmoney.com/zs399364.html" target="_blank" title="消费100"><span class="red">消费</span>100</a></td><td class="last center300"><a href="http://quote.eastmoney.com/zs399364.html" target="_blank">行情</a></td></tr><tr><td><a href="http://quote.eastmoney.com/zs399617.html" target="_blank">399617</a></td><td class="left150"><a href="http://quote.eastmoney.com/zs399617.html" target="_blank" title="深证消费">深证<span class="red">消费</span></a></td><td class="last center300"><a href="http://quote.eastmoney.com/zs399617.html" target="_blank">行情</a></td></tr><tr><td><a href="http://quote.eastmoney.com/zs000148.html" target="_blank">000148</a></td><td class="left150"><a href="http://quote.eastmoney.com/zs000148.html" target="_blank" title="消费领先"><span class="red">消费</span>领先</a></td><td class="last center300"><a href="http://quote.eastmoney.com/zs000148.html" target="_blank">行情</a></td></tr></tbody></table></div><p class="s-more"><a href="javascript:void(0)" target="_self" data-more="zs" data-num="48">共<span>48</span>条结果，点击展开更多&nbsp;<i class="arr down"></i></a></p></div><div class="section" id="gzqh"><div class="s-title clearfix"><h4>股指期货</h4><p>符合条件的搜索结果：<span>0</span>条</p></div><div class="s-content clearfix"><p class="s-info">未找到相关股指期货</p></div></div><div class="section" id="qh"><div class="s-title clearfix"><h4>期货</h4><p>符合条件的搜索结果：<span>0</span>条</p></div><div class="s-content clearfix"><p class="s-info">未找到相关期货</p></div></div><div class="section" id="zq"><div class="s-title clearfix"><h4>债券</h4><p>符合条件的搜索结果：<span>2</span>条</p></div><div class="s-content clearfix"><table class="table1"><thead><tr><th>代码</th><th>债券名称</th><th class="last">相关链接</th></tr></thead><tbody><tr class="firstTR"><td><a href="http://quote.eastmoney.com/sz980030.html" target="_blank">980030</a></td><td class="left150"><a href="http://quote.eastmoney.com/sz980030.html" target="_blank" title="消费电子"><span class="red">消费</span>电子</a></td><td class="last center300"><a href="http://quote.eastmoney.com/sz980030.html" target="_blank">行情</a></td></tr></tbody></table><table class="table2"><thead><tr><th>代码</th><th>债券名称</th><th class="last">相关链接</th></tr></thead><tbody><tr class="firstTR"><td><a href="http://quote.eastmoney.com/sz480030.html" target="_blank">480030</a></td><td class="left150"><a href="http://quote.eastmoney.com/sz480030.html" target="_blank" title="消费电子r"><span class="red">消费</span>电子r</a></td><td class="last center300"><a href="http://quote.eastmoney.com/sz480030.html" target="_blank">行情</a></td></tr></tbody></table><table class="table3"><thead><tr><th>代码</th><th>债券名称</th><th class="last">相关链接</th></tr></thead><tbody><tr class="firstTR"><td></td><td></td><td class="last"></td></tr></tbody></table></div></div><div class="section" id="qq"><div class="s-title clearfix"><h4>期权</h4><p>符合条件的搜索结果：<span>0</span>条</p></div><div class="s-content clearfix"><p class="s-info">未找到相关期权</p></div></div><div class="section" id="mg"><div class="s-title clearfix"><h4>美股</h4><p>符合条件的搜索结果：<span>18</span>条</p></div><div class="s-content clearfix"><table class="table1"><thead><tr><th>代码</th><th>股票名称</th><th class="last">相关链接</th></tr></thead><tbody><tr class="firstTR"><td><a href="http://quote.eastmoney.com/us/VDC.html" target="_blank">VDC</a></td><td class="left150"><a href="http://quote.eastmoney.com/us/VDC.html" target="_blank" title="日常消费指数ETF-Vanguard">日常<span class="red">消费</span>指数ETF-</a></td><td class="last center300"><a href="http://quote.eastmoney.com/us/VDC.html" target="_blank">行情</a></td></tr><tr><td><a href="http://quote.eastmoney.com/us/CHIQ.html" target="_blank">CHIQ</a></td><td class="left150"><a href="http://quote.eastmoney.com/us/CHIQ.html" target="_blank" title="中国消费者指数ETF-Global X">中国<span class="red">消费</span>者指数ETF</a></td><td class="last center300"><a href="http://quote.eastmoney.com/us/CHIQ.html" target="_blank">行情</a></td></tr><tr><td><a href="http://quote.eastmoney.com/us/FXD.html" target="_blank">FXD</a></td><td class="left150"><a href="http://quote.eastmoney.com/us/FXD.html" target="_blank" title="可选消费ETF-FirstTrust AlphaDEX">可选<span class="red">消费</span>ETF-Fi</a></td><td class="last center300"><a href="http://quote.eastmoney.com/us/FXD.html" target="_blank">行情</a></td></tr><tr><td><a href="http://quote.eastmoney.com/us/vcr.html" target="_blank">vcr</a></td><td class="left150"><a href="http://quote.eastmoney.com/us/vcr.html" target="_blank" title="可选消费指数etf-vanguard">可选<span class="red">消费</span>指数etf-</a></td><td class="last center300"><a href="http://quote.eastmoney.com/us/vcr.html" target="_blank">行情</a></td></tr><tr><td><a href="http://quote.eastmoney.com/us/chiq.html" target="_blank">chiq</a></td><td class="left150"><a href="http://quote.eastmoney.com/us/chiq.html" target="_blank" title="中国消费者指数etf-globalx">中国<span class="red">消费</span>者指数etf</a></td><td class="last center300"><a href="http://quote.eastmoney.com/us/chiq.html" target="_blank">行情</a></td></tr></tbody></table><table class="table2"><thead><tr><th>代码</th><th>股票名称</th><th class="last">相关链接</th></tr></thead><tbody><tr class="firstTR"><td><a href="http://quote.eastmoney.com/us/VCR.html" target="_blank">VCR</a></td><td class="left150"><a href="http://quote.eastmoney.com/us/VCR.html" target="_blank" title="可选消费指数ETF-Vanguard">可选<span class="red">消费</span>指数ETF-</a></td><td class="last center300"><a href="http://quote.eastmoney.com/us/VCR.html" target="_blank">行情</a></td></tr><tr><td><a href="http://quote.eastmoney.com/us/XLY.html" target="_blank">XLY</a></td><td class="left150"><a href="http://quote.eastmoney.com/us/XLY.html" target="_blank" title="可选消费ETF-SPDR">可选<span class="red">消费</span>ETF-SP</a></td><td class="last center300"><a href="http://quote.eastmoney.com/us/XLY.html" target="_blank">行情</a></td></tr><tr><td><a href="http://quote.eastmoney.com/us/FXG.html" target="_blank">FXG</a></td><td class="left150"><a href="http://quote.eastmoney.com/us/FXG.html" target="_blank" title="日常消费ETF-FirstTrust AlphaDEX">日常<span class="red">消费</span>ETF-Fi</a></td><td class="last center300"><a href="http://quote.eastmoney.com/us/FXG.html" target="_blank">行情</a></td></tr><tr><td><a href="http://quote.eastmoney.com/us/rxi.html" target="_blank">rxi</a></td><td class="left150"><a href="http://quote.eastmoney.com/us/rxi.html" target="_blank" title="全球可选消费etf-ishares">全球可选<span class="red">消费</span>etf-</a></td><td class="last center300"><a href="http://quote.eastmoney.com/us/rxi.html" target="_blank">行情</a></td></tr><tr><td><a href="http://quote.eastmoney.com/us/kxi.html" target="_blank">kxi</a></td><td class="left150"><a href="http://quote.eastmoney.com/us/kxi.html" target="_blank" title="全球日常消费etf-ishares">全球日常<span class="red">消费</span>etf-</a></td><td class="last center300"><a href="http://quote.eastmoney.com/us/kxi.html" target="_blank">行情</a></td></tr></tbody></table><table class="table3"><thead><tr><th>代码</th><th>股票名称</th><th class="last">相关链接</th></tr></thead><tbody><tr class="firstTR"><td><a href="http://quote.eastmoney.com/us/RXI.html" target="_blank">RXI</a></td><td class="left150"><a href="http://quote.eastmoney.com/us/RXI.html" target="_blank" title="全球可选消费ETF-iShares">全球可选<span class="red">消费</span>ETF-</a></td><td class="last center300"><a href="http://quote.eastmoney.com/us/RXI.html" target="_blank">行情</a></td></tr><tr><td><a href="http://quote.eastmoney.com/us/XLP.html" target="_blank">XLP</a></td><td class="left150"><a href="http://quote.eastmoney.com/us/XLP.html" target="_blank" title="日常消费ETF-SPDR">日常<span class="red">消费</span>ETF-SP</a></td><td class="last center300"><a href="http://quote.eastmoney.com/us/XLP.html" target="_blank">行情</a></td></tr><tr><td><a href="http://quote.eastmoney.com/us/KXI.html" target="_blank">KXI</a></td><td class="left150"><a href="http://quote.eastmoney.com/us/KXI.html" target="_blank" title="全球日常消费ETF-iShares">全球日常<span class="red">消费</span>ETF-</a></td><td class="last center300"><a href="http://quote.eastmoney.com/us/KXI.html" target="_blank">行情</a></td></tr><tr><td><a href="http://quote.eastmoney.com/us/vdc.html" target="_blank">vdc</a></td><td class="left150"><a href="http://quote.eastmoney.com/us/vdc.html" target="_blank" title="日常消费指数etf-vanguard">日常<span class="red">消费</span>指数etf-</a></td><td class="last center300"><a href="http://quote.eastmoney.com/us/vdc.html" target="_blank">行情</a></td></tr><tr><td><a href="http://quote.eastmoney.com/us/xly.html" target="_blank">xly</a></td><td class="left150"><a href="http://quote.eastmoney.com/us/xly.html" target="_blank" title="可选消费etf-spdr">可选<span class="red">消费</span>etf-sp</a></td><td class="last center300"><a href="http://quote.eastmoney.com/us/xly.html" target="_blank">行情</a></td></tr></tbody></table></div><p class="s-more"><a href="javascript:void(0)" target="_self" data-more="mg" data-num="18">共<span>18</span>条结果，点击展开更多&nbsp;<i class="arr down"></i></a></p></div></div>
+        </div>
+    </div>
+    <a href="javascript:void(0)" target="_self" id="backToTop" style="display: inline;">
+        <i></i>回到顶部
+    </a>
+    <!-- main content end -->
+    <div class="cpright">
+        <p style="margin: 10px 0 0; padding: 0px;">
+            <a style="cursor: pointer;" onclick="SetHome2(this,'http://fund.eastmoney.com/')" target="_self">将天天基金网设为上网首页吗？</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="addBook('http://fund.eastmoney.com/','天天基金网--东方财富网旗下基金平台')" style="cursor: pointer;" target="_self">将天天基金网添加到收藏夹吗？</a>
+        </p>
+        <p>
+            <a target="_blank" href="http://help.1234567.com.cn/aboutus/about.html">关于我们</a><span>|</span><a target="_blank" href="http://help.1234567.com.cn/aboutus/licenses.html">资质证明</a><span>|</span><a target="_blank" href="http://fundact.eastmoney.com/ttjjyjzx/">研究中心</a><span>|</span><a target="_blank" href="http://help.1234567.com.cn/aboutus/sellerteam.html">销售团队</a><span>|</span><a target="_blank" href="http://help.1234567.com.cn/aboutus/connect.html">联系我们</a><span>|</span><a target="_blank" href="http://help.1234567.com.cn/aboutus/security_guid.html">安全指引</a><span>|</span><a target="_blank" href="http://help.1234567.com.cn/aboutus/relief.html">免责条款</a><span>|</span><a target="_blank" href="http://help.1234567.com.cn/aboutus/secret.html">隐私条款</a><span>|</span><a target="_blank" href="http://help.1234567.com.cn/aboutus/risktips.html">风险提示函</a><span>|</span><a target="_blank" href="http://feedback.1234567.com.cn/">意见建议</a><span>|</span><a id="ttfund_online" target="_self" href="javascript:;">在线客服</a>
+        </p>
+        <p class="cp">
+            天天基金客服热线：95021 / 4001818188<span>|</span>客服邮箱：<a target="_blank" href="mailto:vip@1234567.com.cn">vip@1234567.com.cn</a>&nbsp;&nbsp;<a href="mailto:ttfund@1234567.com.cn">ttfund@1234567.com.cn</a><span>|</span>人工服务时间：工作日 7:30-21:30 双休日 9:00-21:30<br>
+            郑重声明：<a target="_blank" href="http://help.1234567.com.cn/aboutus/licenses.html" class="footFundCertLink">天天基金系证监会批准的基金销售机构[000000303]</a>。天天基金网所载文章、数据仅供参考，使用前请核实，风险自负。<br>
+            中国证监会上海监管局网址：<a href="http://www.csrc.gov.cn/pub/shanghai/">www.csrc.gov.cn/pub/shanghai</a><br>
+            CopyRight&nbsp;&nbsp;上海天天基金销售有限公司&nbsp;&nbsp;2011-现在&nbsp;&nbsp;沪ICP证：沪B2-20130026<br>
+            <br>
+        </p>
+    </div>
+
+    <script type="text/javascript">
+        eval(function (p, a, c, k, e, r) { e = function (c) { return c.toString(36) }; if ('0'.replace(0, e) == 0) { while (c--) r[e(c)] = k[c]; k = [function (e) { return r[e] || e }]; e = function () { return '[0-9a-df]' }; c = 1 }; while (c--) if (k[c]) p = p.replace(new RegExp('\\b' + e(c) + '\\b', 'g'), k[c]); return p }('7 addBook(0,2){3(8.all){3(arguments){1.9.a(1.location.href,1.8.2)}4{1.9.a(0,2)}}4{5("加入收藏失败，请使用Ctrl+D进行添加");return b}};7 SetHome2(6,0){c{6.style.behavior=\'0(#default#homepage)\';6.setHomePage(0)}d(e){3(1.f){c{f.security.PrivilegeManager.enablePrivilege("UniversalXPConnect")}d(e){5("抱歉，此操作被浏览器拒绝！\\n\\n请在浏览器地址栏输入“about:config”并回车然后将[signed.applets.codebase_principal_support]设置为\'b\'")}}4{5("抱歉，您所使用的浏览器无法完成此操作。\\n\\n您需要手动将【"+0+"】设置为首页。")}}};', [], 16, 'url|window|title|if|else|alert|obj|function|document|external|AddFavorite|true|try|catch||netscape'.split('|'), 0, {}))
+    </script>
+
+    <script type="text/javascript" src="//felibs.dfcfw.com/libs/jquery/1.8.3/jquery.min.js"></script>
+
+    <script type="text/javascript" src="//fund.eastmoney.com/js/fundcode_search.js"></script>
+    <script type="text/javascript" src="//j5.dfcfw.com/sc/js/data/content_20200416104100.js"></script>
+    <script type="text/javascript" src="//fund.eastmoney.com/js/fundsearch/script.js" charset="utf-8"></script>
+    <script type="text/javascript" src="//fund.eastmoney.com/webcommon/js/FundCommonPage.min.js"></script>
+    <script src="//j5.dfcfw.com/libs/js/counter.js"></script>
+    <script src="//cmsjs.eastmoney.com/analysis/emtj.min.js "></script>
+    <script src="//j5.dfcfw.com/sc/js/default/replacegb_min_20200410.js"></script>
+
+
+
+<div id="AIAssistant" class="AIAssistant" style="display: none;"><div class="XT_prompt" id="XT_prompt">有问题找小天</div><div class="XTIcon" id="XTIcon"><div class="XTIconBG"><img src="https://j5.dfcfw.com/sc/image/202009/20200915070621.gif" width="70" style="margin-left:-5px;margin-top:-4px;"></div></div></div></body></html>
