@@ -1,10 +1,33 @@
 import os
 import time
 from loguru import logger
+from threading import Thread
+from lxml import etree
 from selenium import webdriver
-from web_common.web_base import WebPage
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from config_files.fund_param import MAX_WINDOW_NUM
+
+class SeleniumThread(Thread):
+    def __init__(self, func, args=()):
+        super().__init__()
+        self.func = func
+        self.args = args
+        
+    def run(self):
+        try:
+            self.result = self.func(*self.args)
+        finally:
+            # Avoid a refcycle if the thread is running a function with
+            # an argument that has a member that points to the thread.
+            del self._target, self._args, self._kwargs
+        
+    def get_result(self):
+        Thread.join(self)  # 等待线程执行完毕
+        try:
+            return self.result
+        except Exception:
+            return None
 
 class SeleniumBase:
     def __init__(self, url, log_name):
@@ -17,8 +40,10 @@ class SeleniumBase:
         self.original_window_handler = self.browser.current_window_handle
         self.window_num = len(self.browser.window_handles)
         self.current_window_handler = self.browser.current_window_handle
+        self.thread_list = []
+        self.etree_content = None
         
-    def grab_web_page(self):
+    def download_web_page(self):
         self.page_source = self.browser.execute_script("return document.documentElement.outerHTML;")
         
     def get_logger(self, log_name):
@@ -33,16 +58,10 @@ class SeleniumBase:
         logger.info('store log at {}'.format(_file_location))
         return logger
     
-    # open different tab in browser
-    def open_tab(self, fund):
-        if self.window_num <= MAX_WINDOW_NUM:
-            self.browser.switch_to.new_window('tab')
-            self.window_num = len(self.browser.window_handles)
-            self.current_window_handler = self.browser.current_window_handle
-            self.browser.get(fund.url)
-            self.logger.info('open {}'.format(fund.url))
-            time.sleep(2)
-            return True
-        else:
-            return False
+    def make_sure_web_ready(self, locator):
+        self.logger.info('checking {}'.format(locator))
+        self.wait.until(EC.presence_of_element_located(locator))
         
+    def get_page_source(self):
+        self.download_web_page()
+        self.etree_content = etree.HTML(self.page_source)

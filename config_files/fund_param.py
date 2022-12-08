@@ -12,3 +12,4 @@ def cal_gaussian_ratio():
 FUND_RANK_MULTI_PARAM = cal_gaussian_ratio()
 FUND_RANK_PERIOD = np.array(['1week', '1month', '3months', '6months', '1year', '2years', '3years'])
 MAX_WINDOW_NUM = 5
+MAX_THREAD_NUM = 5
