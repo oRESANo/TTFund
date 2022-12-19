@@ -19,22 +19,49 @@ from tt_web.fund_search import CrackEastMoney
 'http://fund.eastmoney.com/000056.html',
 
 def get_fund_list():
-    fund1 = Fund('110022', 'http://fund.eastmoney.com/110022.html', '易方达消费行业股票')
-    fund2 = Fund('110022', 'http://fund.eastmoney.com/010331.html', '易方达消费行业股票')
-    fund3 = Fund('110022', 'http://fund.eastmoney.com/517280.html', '易方达消费行业股票')
-    fund4 = Fund('110022', 'http://fund.eastmoney.com/010422.html', '易方达消费行业股票')
-    fund5 = Fund('110022', 'http://fund.eastmoney.com/517550.html', '易方达消费行业股票')
-    fund6 = Fund('110022', 'http://fund.eastmoney.com/002967.html', '易方达消费行业股票')
-    fund7 = Fund('110022', 'http://fund.eastmoney.com/000056.html', '易方达消费行业股票')
-    return [fund1, fund2, fund3, fund4, fund5, fund6, fund7]
+    fund_list = []
+    # fund_list.append(Fund('110022', 'http://fund.eastmoney.com/110022.html', '易方达消费行业股票'))
+    # fund_list.append(Fund('009265', 'http://fund.eastmoney.com/009265.html', '易方达消费精选股票'))
+    fund_list.append(Fund('006309', 'http://fund.eastmoney.com/006309.html', '汇添富全球消费混合人民币C'))
+    return fund_list
+
+def test_open_fund_list():
+    a = CrackEastMoney(FUND_SEARCH_URL.format(key='消费'), 'EastMoney.log')
+    a.get_fund_list((By.CLASS_NAME, "search-result"))
 
 def test_open_close_tab():
     a = CrackEastMoney(FUND_SEARCH_URL.format(key='消费'), 'EastMoney.log')
     a.fund_list = get_fund_list()
-    a.get_fund_data([(By.ID, "IncreaseAmount"), (By.ID, "quotationItem_DataTable"), (By.CLASS_NAME, "quotationItem_left")])
+    return a
 
+def test_fund_score():
+    fund_obj = test_open_close_tab()
+    fund_obj.get_fund_data([(By.ID, "IncreaseAmount"),
+                            (By.ID, "quotationItem_DataTable"),
+                            ])
+    
+def test_window_close():
+    broswer = webdriver.Chrome()
+    for _ in range(3):
+        broswer.switch_to.new_window('tab')
+        broswer.get('http://fund.eastmoney.com/110022.html')
+        # broswer.switch_to.window(broswer.window_handles[-1])
+        # broswer.close()
+    broswer.switch_to.window(broswer.window_handles[-1])
+    broswer.close()
+    print(len(broswer.window_handles))
+    broswer.switch_to.window(broswer.window_handles[-1])
+    broswer.close()
+    print(len(broswer.window_handles))
+    broswer.switch_to.window(broswer.window_handles[-1])
+    broswer.close()
+    print(len(broswer.window_handles))
+    broswer.switch_to.window(broswer.window_handles[0])
+    broswer.switch_to.new_window('tab')
+    broswer.get('www.baidu.com')
+    
 
 if __name__ == '__main__':
-    test_open_close_tab()
+    test_open_fund_list()
                     
     

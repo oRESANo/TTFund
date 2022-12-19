@@ -7,6 +7,7 @@ from selenium import webdriver
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from config_files.fund_param import MAX_WINDOW_NUM
+from selenium.webdriver.chrome.options import Options
 
 class SeleniumThread(Thread):
     def __init__(self, func, args=()):
@@ -30,12 +31,16 @@ class SeleniumThread(Thread):
             return None
 
 class SeleniumBase:
-    def __init__(self, url, log_name):
+    def __init__(self, url, log_name, headless=True):
         self.url = url
         self.page_source = None
-        self.browser = webdriver.Chrome()
+        if headless:
+            chrome_options = Options()
+            chrome_options.add_argument('--headless')
+            self.browser = webdriver.Chrome(chrome_options=chrome_options)
+        else:
+            self.browser = webdriver.Chrome()
         self.wait = WebDriverWait(self.browser, 10)
-        self.browser.get(self.url)
         self.logger = self.get_logger(log_name)
         self.original_window_handler = self.browser.current_window_handle
         self.window_num = len(self.browser.window_handles)
@@ -62,6 +67,10 @@ class SeleniumBase:
         self.logger.info('checking {}'.format(locator))
         self.wait.until(EC.presence_of_element_located(locator))
         
-    def get_page_source(self):
+    def get_page_source(self, page_content=None):
         self.download_web_page()
-        self.etree_content = etree.HTML(self.page_source)
+        if not page_content:
+            self.etree_content = etree.HTML(self.page_source)
+        else:
+            page_content = etree.HTML(self.page_source)
+            return page_content
