@@ -126,26 +126,29 @@ class CrackEastMoney(SeleniumBase):
         # stock net worth link
         fund.net_worth_link = self.etree_content.xpath('//li[@id="position_shares"]//div[@class="poptableWrap_footer"]//a/@href')
 
+    # TODO edit XPATh element
     def fund_networth_flip_page(self):
         try:
-            click_button = self.browser.find_element(By.XPATH, '//a[@data-more="jj"]')
+            click_button = self.browser.find_element(By.XPATH, '//div[@class="pagebtns"]/label[8]')
             ActionChains(self.browser)\
                 .move_to_element(click_button)\
                 .pause(0.5)\
                 .click(click_button)\
                 .perform()
-            time.sleep(2)
+            time.sleep(0.5)
         except:
             pass
 
     # flip fund networth page
     def get_fund_networth(self, locators):
         for fund in self.fund_list:
+            while 
             for locator in locators:
                 self.make_sure_web_ready(locator)
             self.get_fund_networth_details(fund)
             self.fund_networth_flip_page()
- 
+    
+    # TODO: need to refresh page source and keep crawling data
     def get_fund_networth_details(self, fund):
             self.logger.info('starting to crawl fund networth details {}'.format(\
                         fund.fund_name))
@@ -153,7 +156,7 @@ class CrackEastMoney(SeleniumBase):
             fund.net_worth['date'].append(fund.net_worth_web_page.xpath('//table[@class="w782 comm lsjz"]/tbody/tr/td[1]/text()'))
             fund.net_worth['unit_net_worth'].append(fund.net_worth_web_page.xpath('//table[@class="w782 comm lsjz"]/tbody/tr/td[2]/text()'))
             fund.net_worth['accumulated_net_worth'].append(fund.net_worth_web_page.xpath('//table[@class="w782 comm lsjz"]/tbody/tr/td[3]/text()'))
-            fund.net_worth['daily_return'].append(fund.net_worth_web_page.xpath('//table[@class="w782 comm lsjz"]/tbody/tr/td[4]/text()'))
+            fund.net_worth['daily_return'].append(fund.net_worth_web_page.xpath('//table[@class="w782 comm lsjz"]/tbody/tr/td[4]/text()'))  
 
     def run(self, fund_list_locators, fund_locators, fund_networth_locators):
         self.get_fund_list(fund_list_locators)
