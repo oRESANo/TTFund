@@ -3,11 +3,12 @@ import os, sys
 import numpy as np
 from collections import OrderedDict
 sys.path.append(os.getcwd())
-from config_files.fund_param import FUND_RANK_MULTI_PARAM, FUND_RANK_PERIOD
+from config_files.fund_param import FUND_RANK_MULTI_PARAM, FUND_RANK_PERIOD, MAX_WINDOW_NUM, MAX_THREAD_NUM
 from tt_web.fund_sup.fund_common import fund_rank_4_convert
+from selenium_base.selenium_common import SeleniumBase, SeleniumThread
 
 class Fund:
-    def __init__(self, code, url, name):
+    def __init__(self, code, url, name, logger):
         self.fund_url = url
         self.fund_code = code
         self.fund_name = name
@@ -24,6 +25,7 @@ class Fund:
         self.fund_rank_score = 0
         self.lack_data = False
         self.already_open_window = False # flag for selenium has already dealt with
+        self.logger = logger
         
     # 获取fund的四分位排名, 数据不够重置flag
     def get_fund_quartile_rank(self, fund_rank_4_list:list):
@@ -35,6 +37,58 @@ class Fund:
 
     def get_fund_rank_score(self):
         self.fund_rank_score = sum(self.quartile_rank * self.rank_score_params)
+
+    def get_fund_details(self, etree_content):
+        self.logger.info('starting to crawl self details {}'.format(\
+                        self.fund_name))
+        self.get_fund_quartile_rank(etree_content.xpath('//li[@id="increaseAmount_stage"]//td/h3/text()'))
+        self.get_fund_rank_score()
+        self.holding_stock_list['stock_name'] = etree_content.xpath('//li[@class="position_shares"]//td[@class="alignLeft"]/a/text()|//li[@class="position_shares"]//td[@class="alignLeft"]/div/text()')
+        tmp = []
+        percentage_list = etree_content.xpath('//li[@class="position_shares"]/div[@class="poptableWrap"]//td[@class="alignRight bold"]/text()')
+        for percentage in percentage_list:
+            if percentage[-1] == '%':
+                tmp.append(float(percentage[:-1])/100)
+            else:
+                # dont append anything because stock list will be less
+                self.logger.warning('holding_percentage is wrong')
+        self.holding_stock_list['holding_percentage'] = tmp
+        # stock holding list
+        self.logger.info(list(self.holding_stock_list['stock_name']))
+        self.logger.info(percentage_list)
+        # stock net worth link
+        self.net_worth_link = etree_content.xpath('//div[@id="Div2"]//div[@class="item_more"]/a/@href')[0]
+        
+    def get_fund_networth_details(self, final_page):
+            self.logger.info('starting to crawl fund networth details {}'.format(\
+                        self.fund_name))
+            self.net_worth_web_page = self.get_page_source(self.net_worth_web_page)
+            pd.concat([self.net_worth,
+                        pd.DataFrame(
+                            self.net_worth_web_page.xpath('//table[@class="w782 comm lsjz"]/tbody/tr/td[1]/text()'),
+                            columns=['date'])],
+                        ignore_index=True)
+            pd.concat([self.net_worth,
+                        pd.DataFrame(
+                            self.net_worth_web_page.xpath('//table[@class="w782 comm lsjz"]/tbody/tr/td[2]/text()'),
+                            columns=['unit_net_worth'])],
+                        ignore_index=True)
+            pd.concat([self.net_worth,
+                        pd.DataFrame(
+                            self.net_worth_web_page.xpath('//table[@class="w782 comm lsjz"]/tbody/tr/td[3]/text()'),
+                            columns=['accumulated_net_worth'])],
+                        ignore_index=True)
+            pd.concat([self.net_worth,
+                        pd.DataFrame(
+                            self.net_worth_web_page.xpath('//table[@class="w782 comm lsjz"]/tbody/tr/td[4]/text()'),
+                            columns=['daily_return'])],
+                        ignore_index=True)
+            current_page = self.net_worth_web_page.xpath(
+                            '//div[@class="pagebtns"]/label[@class="cur"]/text()')
+            if final_page == 0:
+                final_page = self.net_worth_web_page.xpath(
+                            '//div[@class="pagebtns"]/label[7]/text()')
+            return current_page, final_page
 
 class FundNetWorth:
     def __init__(self):

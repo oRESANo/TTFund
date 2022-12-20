@@ -3,6 +3,7 @@ import time
 from threading import Thread
 from loguru import logger
 from lxml import etree
+import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver import ActionChains
@@ -41,8 +42,10 @@ class CrackEastMoney(SeleniumBase):
         link = self.etree_content.xpath('//*[@id="jj"]//tbody//td[not(@class)]//a[not(@title)]/@href')
         name = self.etree_content.xpath('//*[@id="jj"]//tbody//td[not(@class)]//a/@title')
         if len(code) == len(link) and len(link) == len(name):
-            for i in range(len(code)):
-                self.fund_list.append(Fund(code[i], link[i], name[i]))
+            # for i in range(len(code)):
+            # For test, ONLY append 5 funds
+            for i in range(1):
+                self.fund_list.append(Fund(code[i], link[i], name[i], self.logger))
 
     def get_fund_data(self, locators):
         fund_index = 0
@@ -100,33 +103,12 @@ class CrackEastMoney(SeleniumBase):
                 self.make_sure_web_ready(locator)
             self.get_page_source()
             # TODO grab fund details
-            self.get_fund_details(fund)
+            fund.get_fund_details(self.etree_content)
             return True
         else:
             return False
-        
-    def get_fund_details(self, fund):
-        self.logger.info('starting to crawl fund details {}'.format(\
-                        fund.fund_name))
-        fund.get_fund_quartile_rank(self.etree_content.xpath('//li[@id="increaseAmount_stage"]//td/h3/text()'))
-        fund.get_fund_rank_score()
-        fund.holding_stock_list['stock_name'] = self.etree_content.xpath('//li[@class="position_shares"]//td[@class="alignLeft"]/a/text()|//li[@class="position_shares"]//td[@class="alignLeft"]/div/text()')
-        tmp = []
-        percentage_list = self.etree_content.xpath('//li[@class="position_shares"]/div[@class="poptableWrap"]//td[@class="alignRight bold"]/text()')
-        for percentage in percentage_list:
-            if percentage[-1] == '%':
-                tmp.append(float(percentage[:-1])/100)
-            else:
-                # dont append anything because stock list will be less
-                self.logger.warning('holding_percentage is wrong')
-        fund.holding_stock_list['holding_percentage'] = tmp
-        # stock holding list
-        self.logger.info(list(fund.holding_stock_list['stock_name']))
-        self.logger.info(percentage_list)
-        # stock net worth link
-        fund.net_worth_link = self.etree_content.xpath('//li[@id="position_shares"]//div[@class="poptableWrap_footer"]//a/@href')
 
-    # TODO edit XPATh element
+    # TODO: edit XPATh element
     def fund_networth_flip_page(self):
         try:
             click_button = self.browser.find_element(By.XPATH, '//div[@class="pagebtns"]/label[8]')
@@ -141,22 +123,17 @@ class CrackEastMoney(SeleniumBase):
 
     # flip fund networth page
     def get_fund_networth(self, locators):
+        final_page = 0
         for fund in self.fund_list:
-            while 
-            for locator in locators:
-                self.make_sure_web_ready(locator)
-            self.get_fund_networth_details(fund)
-            self.fund_networth_flip_page()
-    
-    # TODO: need to refresh page source and keep crawling data
-    def get_fund_networth_details(self, fund):
-            self.logger.info('starting to crawl fund networth details {}'.format(\
-                        fund.fund_name))
-            fund.net_worth_web_page = self.get_page_source(fund.net_worth_web_page)
-            fund.net_worth['date'].append(fund.net_worth_web_page.xpath('//table[@class="w782 comm lsjz"]/tbody/tr/td[1]/text()'))
-            fund.net_worth['unit_net_worth'].append(fund.net_worth_web_page.xpath('//table[@class="w782 comm lsjz"]/tbody/tr/td[2]/text()'))
-            fund.net_worth['accumulated_net_worth'].append(fund.net_worth_web_page.xpath('//table[@class="w782 comm lsjz"]/tbody/tr/td[3]/text()'))
-            fund.net_worth['daily_return'].append(fund.net_worth_web_page.xpath('//table[@class="w782 comm lsjz"]/tbody/tr/td[4]/text()'))  
+            self.browser.get(fund.net_worth_link)
+            while True:
+                for locator in locators:
+                    self.make_sure_web_ready(locator)
+                current_page,final_page = fund.get_fund_networth_details()
+                self.fund_networth_flip_page()
+                if current_page == final_page:
+                    break
+            self.logger.info('finish crawling {} networth'.format(fund.fund_name))
 
     def run(self, fund_list_locators, fund_locators, fund_networth_locators):
         self.get_fund_list(fund_list_locators)
@@ -164,5 +141,9 @@ class CrackEastMoney(SeleniumBase):
         self.get_fund_networth(fund_networth_locators)
 
 if __name__ == '__main__':
-    a = CrackEastMoney(FUND_SEARCH_URL.format(key='消费'), 'EastMoney.log')
-    a.run(fund_list_locators, fund_locators, fund_networth_locators)
+    a = CrackEastMoney(FUND_SEARCH_URL.format(key='消费'),
+                       'EastMoney.log',
+                       headless=False)
+    a.run(fund_list_locators,
+          fund_locators,
+          fund_networth_locators)
