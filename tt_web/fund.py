@@ -58,37 +58,38 @@ class Fund:
         self.logger.info(percentage_list)
         # stock net worth link
         self.net_worth_link = etree_content.xpath('//div[@id="Div2"]//div[@class="item_more"]/a/@href')[0]
-        
-    def get_fund_networth_details(self, final_page):
-            self.logger.info('starting to crawl fund networth details {}'.format(\
-                        self.fund_name))
-            self.net_worth_web_page = self.get_page_source(self.net_worth_web_page)
-            pd.concat([self.net_worth,
-                        pd.DataFrame(
-                            self.net_worth_web_page.xpath('//table[@class="w782 comm lsjz"]/tbody/tr/td[1]/text()'),
-                            columns=['date'])],
-                        ignore_index=True)
-            pd.concat([self.net_worth,
-                        pd.DataFrame(
-                            self.net_worth_web_page.xpath('//table[@class="w782 comm lsjz"]/tbody/tr/td[2]/text()'),
-                            columns=['unit_net_worth'])],
-                        ignore_index=True)
-            pd.concat([self.net_worth,
-                        pd.DataFrame(
-                            self.net_worth_web_page.xpath('//table[@class="w782 comm lsjz"]/tbody/tr/td[3]/text()'),
-                            columns=['accumulated_net_worth'])],
-                        ignore_index=True)
-            pd.concat([self.net_worth,
-                        pd.DataFrame(
-                            self.net_worth_web_page.xpath('//table[@class="w782 comm lsjz"]/tbody/tr/td[4]/text()'),
-                            columns=['daily_return'])],
-                        ignore_index=True)
-            current_page = self.net_worth_web_page.xpath(
-                            '//div[@class="pagebtns"]/label[@class="cur"]/text()')
-            if final_page == 0:
-                final_page = self.net_worth_web_page.xpath(
-                            '//div[@class="pagebtns"]/label[7]/text()')
-            return current_page, final_page
+
+    def get_fund_networth_details(self, etree_content, final_page):
+        current_page = etree_content.xpath(
+                        '//div[@class="pagebtns"]/label[@class="cur"]/text()')
+        self.logger.info('starting to crawl fund networth details {} page {}'.format(\
+                    self.fund_name, current_page))
+        tmp_df = self.get_fund_networth_onepage_data(etree_content)
+        self.net_worth = pd.concat([self.net_worth, tmp_df], ignore_index=True)
+        if final_page == 0:
+            final_page = etree_content.xpath(
+                        '//div[@class="pagebtns"]/label[7]/text()')
+        return current_page, final_page
+
+    def get_fund_networth_onepage_data(self, etree_content):
+        fund_date = pd.DataFrame(
+                        etree_content.xpath(
+                            '//table[@class="w782 comm lsjz"]/tbody/tr/td[1]/text()'),
+                        columns=['date'])
+        unit_worth = pd.DataFrame(
+                        etree_content.xpath(
+                            '//table[@class="w782 comm lsjz"]/tbody/tr/td[2]/text()'),
+                        columns=['unit_net_worth'])
+        accumulated_worth = pd.DataFrame(
+                                etree_content.xpath(
+                                    '//table[@class="w782 comm lsjz"]/tbody/tr/td[3]/text()'),
+                                columns=['accumulated_net_worth'])
+        daily_gain = pd.DataFrame(
+                        etree_content.xpath(
+                            '//table[@class="w782 comm lsjz"]/tbody/tr/td[4]/text()'),
+                        columns=['daily_return'])
+        tmp_df = fund_date.join(unit_worth).join(accumulated_worth).join(daily_gain)
+        return tmp_df
 
 class FundNetWorth:
     def __init__(self):

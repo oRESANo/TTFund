@@ -23,5 +23,5 @@ fund_locators = [
     (By.ID, "quotationItem_DataTable"),
     ]
 fund_networth_locators = [
-    (By.CLASS_NAME, "w782 comm lsjz"),
+    (By.XPATH, '//div[@class="boxitem w790"]/h4/label'),
     ]

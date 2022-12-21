@@ -11,6 +11,7 @@ sys.path.append(os.getcwd())
 from config_files.fund_param import FUND_SEARCH_URL, MAX_THREAD_NUM, MAX_WINDOW_NUM, fund_list_locators, fund_locators, fund_networth_locators
 from selenium.webdriver.support import expected_conditions as EC
 from selenium_base.selenium_common import SeleniumBase, SeleniumThread
+from tt_web.fund_sup.fund_common import clean_fund_networth_data
 from tt_web.fund import Fund
 
 class CrackEastMoney(SeleniumBase):
@@ -18,6 +19,7 @@ class CrackEastMoney(SeleniumBase):
         super().__init__(url, log_name, headless)
         self.locator = ()
         self.fund_list = []
+        self.fund_networth_data_storage_location = os.path.join(os.getcwd(), 'data/net_worth')
 
     # grab all funding list
     def collapse_fund_list(self, locators):
@@ -43,8 +45,8 @@ class CrackEastMoney(SeleniumBase):
         name = self.etree_content.xpath('//*[@id="jj"]//tbody//td[not(@class)]//a/@title')
         if len(code) == len(link) and len(link) == len(name):
             # for i in range(len(code)):
-            # For test, ONLY append 5 funds
-            for i in range(1):
+            # FOR TEST, ONLY crawl 5 funds
+            for i in range(5):
                 self.fund_list.append(Fund(code[i], link[i], name[i], self.logger))
 
     def get_fund_data(self, locators):
@@ -70,20 +72,17 @@ class CrackEastMoney(SeleniumBase):
         for thr in self.thread_list: # ONLY have 5 threads at most
             thr.start() # start open_grab_close_tab function
             ret = thr.get_result()
-            # self.logger.info(self.thread_list)
             if ret:
                 self.logger.info('thread action successfully')
                 del_thr_list.append(thr)
             else:
                 self.logger.error('reach max window number')
-            # self.logger.info(del_thr_list)
         # start to delete thread
         for del_thr in del_thr_list:
             self.logger.info('delete {}'.format(del_thr))
             self.thread_list.remove(del_thr)
             self.logger.info('thread list length: {}'.format(len(self.thread_list)))
-        # start to close tab
-        # update window number
+        # start to close tab, update window number
         while self.browser.window_handles[0] != self.browser.window_handles[-1]:
             self.logger.info('close {}'.format(self.browser.window_handles[-1]))
             self.browser.switch_to.window(self.browser.window_handles[-1])
@@ -108,7 +107,6 @@ class CrackEastMoney(SeleniumBase):
         else:
             return False
 
-    # TODO: edit XPATh element
     def fund_networth_flip_page(self):
         try:
             click_button = self.browser.find_element(By.XPATH, '//div[@class="pagebtns"]/label[8]')
@@ -126,13 +124,19 @@ class CrackEastMoney(SeleniumBase):
         final_page = 0
         for fund in self.fund_list:
             self.browser.get(fund.net_worth_link)
-            while True:
+            # while True:
+            # FOR TEST, only crawl first 5 pages
+            for _ in range(5):
                 for locator in locators:
                     self.make_sure_web_ready(locator)
-                current_page,final_page = fund.get_fund_networth_details()
+                self.get_page_source()
+                current_page,final_page = fund.get_fund_networth_details(self.etree_content, final_page)
                 self.fund_networth_flip_page()
                 if current_page == final_page:
                     break
+            fund.net_worth = clean_fund_networth_data(fund.net_worth)
+            # print(fund.net_worth)
+            fund.net_worth.to_excel(os.path.join(self.fund_networth_data_storage_location, fund.fund_name+'.xlsx'))
             self.logger.info('finish crawling {} networth'.format(fund.fund_name))
 
     def run(self, fund_list_locators, fund_locators, fund_networth_locators):
@@ -143,7 +147,7 @@ class CrackEastMoney(SeleniumBase):
 if __name__ == '__main__':
     a = CrackEastMoney(FUND_SEARCH_URL.format(key='消费'),
                        'EastMoney.log',
-                       headless=False)
+                       headless=True)
     a.run(fund_list_locators,
           fund_locators,
           fund_networth_locators)
