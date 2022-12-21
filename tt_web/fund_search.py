@@ -109,7 +109,7 @@ class CrackEastMoney(SeleniumBase):
 
     def fund_networth_flip_page(self):
         try:
-            click_button = self.browser.find_element(By.XPATH, '//div[@class="pagebtns"]/label[8]')
+            click_button = self.browser.find_element(By.XPATH, '//div[@class="pagebtns"]/label[text()="下一页"]')
             ActionChains(self.browser)\
                 .move_to_element(click_button)\
                 .pause(0.5)\
@@ -124,13 +124,15 @@ class CrackEastMoney(SeleniumBase):
         final_page = 0
         for fund in self.fund_list:
             self.browser.get(fund.net_worth_link)
-            # while True:
+            while True:
             # FOR TEST, only crawl first 5 pages
-            for _ in range(5):
+            # for _ in range(5):
                 for locator in locators:
                     self.make_sure_web_ready(locator)
                 self.get_page_source()
                 current_page,final_page = fund.get_fund_networth_details(self.etree_content, final_page)
+                self.logger.info('current_page {}'.format(current_page))
+                self.logger.info('final_page {}'.format(final_page))
                 self.fund_networth_flip_page()
                 if current_page == final_page:
                     break
@@ -147,7 +149,7 @@ class CrackEastMoney(SeleniumBase):
 if __name__ == '__main__':
     a = CrackEastMoney(FUND_SEARCH_URL.format(key='消费'),
                        'EastMoney.log',
-                       headless=True)
+                       headless=False)
     a.run(fund_list_locators,
           fund_locators,
           fund_networth_locators)

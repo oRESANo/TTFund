@@ -34,6 +34,8 @@ def get_fund_networth():
     current_page = etree_content.xpath('//div[@class="pagebtns"]/label[@class="cur"]/text()')
     final_page = etree_content.xpath('//div[@class="pagebtns"]/label[7]/text()')
     net_worth_label = etree_content.xpath('//div[@class="boxitem w790"]/h4/label')
+    next_page_button = etree_content.xpath('//div[@class="pagebtns"]/label[text()="下一页"]')
+    print(next_page_button)
     fund_date = pd.DataFrame(fund_date, columns=['date'])
     unit_net_worth = pd.DataFrame(unit_net_worth, columns=['unit_net_worth'])
     accumulated_worth = pd.DataFrame(accumulated_worth, columns=['accumulated_net_worth'])
@@ -54,5 +56,5 @@ def create_networth_df():
 
 if __name__ == '__main__':
     # get_fund_details()
-    # get_fund_networth()
-    create_networth_df()
+    get_fund_networth()
+    # create_networth_df()

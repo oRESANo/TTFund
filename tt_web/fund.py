@@ -90,7 +90,3 @@ class Fund:
                         columns=['daily_return'])
         tmp_df = fund_date.join(unit_worth).join(accumulated_worth).join(daily_gain)
         return tmp_df
-
-class FundNetWorth:
-    def __init__(self):
-        pass
