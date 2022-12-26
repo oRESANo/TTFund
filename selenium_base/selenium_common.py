@@ -37,6 +37,7 @@ class SeleniumBase:
         self.log_storage_location = os.path.join(os.getcwd(), 'data')
         if headless:
             chrome_options = Options()
+            chrome_options.add_experimental_option('excludeSwitches', ['enable-automation'])
             chrome_options.add_argument('--headless')
             self.browser = webdriver.Chrome(chrome_options=chrome_options)
         else:

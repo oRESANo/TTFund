@@ -1,5 +1,6 @@
 import sys, os
 import time
+import click
 from threading import Thread
 from loguru import logger
 from lxml import etree
@@ -15,8 +16,10 @@ from tt_web.fund_sup.fund_common import clean_fund_networth_data
 from tt_web.fund import Fund
 
 class CrackEastMoney(SeleniumBase):
-    def __init__(self, url, log_name, headless=True):
+    def __init__(self, fund, log_name, headless, specific_fund=None):
+        url = FUND_SEARCH_URL.format(key=fund)
         super().__init__(url, log_name, headless)
+        self.specific_fund = specific_fund
         self.locator = ()
         self.fund_list = []
         self.fund_networth_data_storage_location = os.path.join(os.getcwd(), 'data/net_worth')
@@ -44,9 +47,16 @@ class CrackEastMoney(SeleniumBase):
         link = self.etree_content.xpath('//*[@id="jj"]//tbody//td[not(@class)]//a[not(@title)]/@href')
         name = self.etree_content.xpath('//*[@id="jj"]//tbody//td[not(@class)]//a/@title')
         if len(code) == len(link) and len(link) == len(name):
+            if self.specific_fund:
+                for i in range(len(code)):
+                    if self.specific_fund == name[i]:
+                        name[i] = name[i].replace('/', '_')
+                        self.fund_list.append(Fund(code[i], link[i], name[i], self.logger))
+                        return
             # for i in range(len(code)):
             # FOR TEST, ONLY crawl 5 funds
             for i in range(5):
+                name[i] = name[i].replace('/', '_')
                 self.fund_list.append(Fund(code[i], link[i], name[i], self.logger))
 
     def get_fund_data(self, locators):
@@ -135,6 +145,7 @@ class CrackEastMoney(SeleniumBase):
                 self.logger.info('final_page {}'.format(final_page))
                 self.fund_networth_flip_page()
                 if current_page == final_page:
+                    final_page = 0
                     break
             fund.net_worth = clean_fund_networth_data(fund.net_worth)
             # print(fund.net_worth)
@@ -146,10 +157,19 @@ class CrackEastMoney(SeleniumBase):
         self.get_fund_data(fund_locators)
         self.get_fund_networth(fund_networth_locators)
 
-if __name__ == '__main__':
-    a = CrackEastMoney(FUND_SEARCH_URL.format(key='消费'),
-                       'EastMoney.log',
-                       headless=False)
+@click.command()
+@click.option('--fund', required=True, type=str)
+@click.option('--log', default='EastMoney.log', type=str)
+@click.option('--headless', default=True, type=bool)
+@click.option('--specific_fund', default=None, type=str)
+def main(fund, log, headless, specific_fund):
+    if specific_fund:
+        a = CrackEastMoney(fund, log, headless, specific_fund)
+    else:
+        a = CrackEastMoney(fund, log, headless)
     a.run(fund_list_locators,
           fund_locators,
           fund_networth_locators)
+
+if __name__ == '__main__':
+    main()
