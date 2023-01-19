@@ -37,6 +37,7 @@ class Fund:
 
     def get_fund_rank_score(self):
         self.fund_rank_score = sum(self.quartile_rank * self.rank_score_params)
+        self.logger.warning('fund {fund_name} score is {fund_score}'.format(fund_name=self.fund_name, fund_score=self.fund_rank_score))
 
     def get_fund_details(self, etree_content):
         self.logger.info('starting to crawl self details {}'.format(\

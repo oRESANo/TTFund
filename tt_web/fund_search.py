@@ -12,17 +12,25 @@ sys.path.append(os.getcwd())
 from config_files.fund_param import FUND_SEARCH_URL, MAX_THREAD_NUM, MAX_WINDOW_NUM, fund_list_locators, fund_locators, fund_networth_locators
 from selenium.webdriver.support import expected_conditions as EC
 from selenium_base.selenium_common import SeleniumBase, SeleniumThread
-from tt_web.fund_sup.fund_common import clean_fund_networth_data
+from tt_web.fund_sup.fund_common import clean_fund_networth_data, order_fund_by_score
 from tt_web.fund import Fund
 
 class CrackEastMoney(SeleniumBase):
-    def __init__(self, fund, log_name, headless, specific_fund=None):
-        url = FUND_SEARCH_URL.format(key=fund)
+    def __init__(self, search_key_word, log_name, headless, specific_fund=None):
+        url = FUND_SEARCH_URL.format(key=search_key_word)
         super().__init__(url, log_name, headless)
+        self.search_key_word = search_key_word
         self.specific_fund = specific_fund
         self.locator = ()
         self.fund_list = []
-        self.fund_networth_data_storage_location = os.path.join(os.getcwd(), 'data/net_worth')
+        self.fund_networth_data_storage_location = os.path.join(os.getcwd(), 'data/net_worth/{}'.format(self.search_key_word))
+        try:
+            os.mkdir(self.fund_networth_data_storage_location)
+        except FileExistsError as e:
+            self.logger.info('{} exists'.format(self.fund_networth_data_storage_location))
+        self.code_list = [] # self.etree_content fund code list
+        self.link_list = [] # self.etree_content fund link list
+        self.name_list = [] # self.etree_content fund name list
 
     # grab all funding list
     def collapse_fund_list(self, locators):
@@ -43,21 +51,30 @@ class CrackEastMoney(SeleniumBase):
         self.browser.get(self.url)
         self.collapse_fund_list(locators)
         self.get_page_source()
-        code = self.etree_content.xpath('//*[@id="jj"]//tbody//td[not(@class)]//a[not(@title)]/text()')
-        link = self.etree_content.xpath('//*[@id="jj"]//tbody//td[not(@class)]//a[not(@title)]/@href')
-        name = self.etree_content.xpath('//*[@id="jj"]//tbody//td[not(@class)]//a/@title')
-        if len(code) == len(link) and len(link) == len(name):
+        self.get_fund_list_details()
+        if len(self.code_list) == len(self.link_list) and len(self.link_list) == len(self.name_list):
             if self.specific_fund:
-                for i in range(len(code)):
-                    if self.specific_fund == name[i]:
-                        name[i] = name[i].replace('/', '_')
-                        self.fund_list.append(Fund(code[i], link[i], name[i], self.logger))
-                        return
-            # for i in range(len(code)):
+                self.single_fund_search()
+                return
+            for i in range(len(self.code_list)):
             # FOR TEST, ONLY crawl 5 funds
-            for i in range(5):
-                name[i] = name[i].replace('/', '_')
-                self.fund_list.append(Fund(code[i], link[i], name[i], self.logger))
+            # for i in range(5):
+                self.name_list[i] = self.name_list[i].replace('/', '_')
+                self.fund_list.append(Fund(self.code_list[i], self.link_list[i], self.name_list[i], self.logger))
+        else:
+            self.logger.error('fund self.code_list {code_len}, fund self.link_list {link_len} and fund self.name_list {name_len} length not equal, something wrong'.format(code_len=len(self.code_list), link_len=len(self.link_list), name_len=len(self.name_list)))
+
+    def get_fund_list_details(self):
+        self.code_list = self.etree_content.xpath('//*[@id="jj"]//tbody//td[not(@class)]//a[not(@title)]/text()')
+        self.link_list = self.etree_content.xpath('//*[@id="jj"]//tbody//td[not(@class)]//a[not(@title)]/@href')
+        self.name_list = self.etree_content.xpath('//*[@id="jj"]//tbody//td[not(@class)]//a/@title')
+
+    def single_fund_search(self):
+        for i in range(len(self.code_list)):
+            if self.specific_fund == self.name_list[i]:
+                self.name_list[i] = self.name_list[i].replace('/', '_')
+                self.fund_list.append(Fund(self.code_list[i], self.link_list[i], self.name_list[i], self.logger))
+                return
 
     def get_fund_data(self, locators):
         fund_index = 0
@@ -71,6 +88,9 @@ class CrackEastMoney(SeleniumBase):
             if fund_index >= len(self.fund_list):
                 self.logger.info('reach end of thread list, break out')
                 break
+        # Re-order fund list by fund rank score
+        self.fund_list = order_fund_by_score(self.fund_list)
+        self.logger.warning('Top 5 fund '+str([fund.fund_name for fund in self.fund_list[0:5]]))
 
     def push_into_thread_list(self, fund, locators):
         thr = SeleniumThread(self.open_grab_close_tab, (fund,locators,))
@@ -132,7 +152,8 @@ class CrackEastMoney(SeleniumBase):
     # flip fund networth page
     def get_fund_networth(self, locators):
         final_page = 0
-        for fund in self.fund_list:
+        # get 5 best fund networth details
+        for fund in self.fund_list[0:5]:
             self.browser.get(fund.net_worth_link)
             while True:
             # FOR TEST, only crawl first 5 pages
@@ -148,7 +169,6 @@ class CrackEastMoney(SeleniumBase):
                     final_page = 0
                     break
             fund.net_worth = clean_fund_networth_data(fund.net_worth)
-            # print(fund.net_worth)
             fund.net_worth.to_excel(os.path.join(self.fund_networth_data_storage_location, fund.fund_name+'.xlsx'))
             self.logger.info('finish crawling {} networth'.format(fund.fund_name))
 
@@ -158,18 +178,23 @@ class CrackEastMoney(SeleniumBase):
         self.get_fund_networth(fund_networth_locators)
 
 @click.command()
-@click.option('--fund', required=True, type=str)
+@click.option('--key', required=True, type=str)
 @click.option('--log', default='EastMoney.log', type=str)
 @click.option('--headless', default=True, type=bool)
 @click.option('--specific_fund', default=None, type=str)
-def main(fund, log, headless, specific_fund):
+def main(key, log, headless, specific_fund):
     if specific_fund:
-        a = CrackEastMoney(fund, log, headless, specific_fund)
+        a = CrackEastMoney(key, log, headless, specific_fund)
+        a.run(fund_list_locators,
+            fund_locators,
+            fund_networth_locators)
     else:
-        a = CrackEastMoney(fund, log, headless)
-    a.run(fund_list_locators,
-          fund_locators,
-          fund_networth_locators)
+        key_words = key.split(',')
+        for key_word in key_words:
+            a = CrackEastMoney(key_word, log, headless)
+            a.run(fund_list_locators,
+                fund_locators,
+                fund_networth_locators)
 
 if __name__ == '__main__':
     main()
